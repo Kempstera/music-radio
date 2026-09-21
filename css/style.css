@@ -362,6 +362,18 @@ body[data-page="vibes"] { --accent: #0E7C86; }
 .audio-bar .btn:active { transform: scale(0.94); }
 .audio-bar .btn.playing { background: var(--accent); }
 
+/* Buffering: hide the play/pause glyph and show a subtle spinner */
+.audio-bar .btn.buffering [data-icon] { display: none; }
+.audio-bar .btn.buffering::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
 .audio-bar .status { font-size: 0.78rem; color: var(--text-3); flex: 0 0 auto; }
 .audio-bar .vol { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .audio-bar .vol input[type="range"] { width: 90px; accent-color: var(--text); }

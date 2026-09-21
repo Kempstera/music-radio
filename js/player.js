@@ -1,7 +1,9 @@
 /**
  * Music Radio — persistent audio player (fixed at bottom of screen)
  * Handles mp3/aac via HTMLAudioElement, m3u8/HLS via hls.js when available.
- * Auto-skips to the next station in the current list when a stream fails.
+ * Auto-skips to the next station in the current list when a stream fails
+ * or stalls (buffering) for too long. Shows a spinning indicator while
+ * buffering so the UI never looks frozen.
  */
 (function () {
   "use strict";
@@ -11,11 +13,12 @@
   var current = null; // { name, url, codec, group, cat }
   var queue = [];     // ordered stations for auto-skip
   var queueIndex = -1;
-  var loadTimer = null; // dead-stream watchdog
+  var loadTimer = null; // dead-stream / stall watchdog
+  var isBuffering = false;
   var stateCb = null;
   var skipCb = null;
 
-  var SKIP_TIMEOUT_MS = 8000;
+  var SKIP_TIMEOUT_MS = 10000; // smart timeout: 10s of waiting/stalled
 
   function t(key) { return window.I18N ? window.I18N.t(key) : key; }
 
@@ -26,17 +29,26 @@
   function ensureAudio() {
     if (!audio) {
       audio = new Audio();
+      // Default: don't waste bandwidth preloading anything until the user plays.
       audio.preload = "none";
-      audio.addEventListener("play", emit);
-      audio.addEventListener("pause", emit);
-      audio.addEventListener("playing", function () {
-        clearTimer();
-        setStatus("");
+
+      audio.addEventListener("play", function () {
+        // User actually wants to hear this — start loading eagerly from now on.
+        audio.preload = "auto";
         emit();
       });
-      audio.addEventListener("waiting", function () { setStatus("buffering"); });
+      audio.addEventListener("pause", function () {
+        clearTimer();
+        setBuffering(false);
+        emit();
+      });
+      audio.addEventListener("playing", onResumed);
+      audio.addEventListener("canplay", onResumed);
+      audio.addEventListener("waiting", onStalled);
+      audio.addEventListener("stalled", onStalled);
       audio.addEventListener("error", function () {
         clearTimer();
+        setBuffering(false);
         skipToNext();
       });
     }
@@ -51,6 +63,13 @@
   function emit() {
     if (stateCb) stateCb({ playing: isPlaying(), name: current ? current.name : null });
     updateButton();
+  }
+
+  function setBuffering(on) {
+    if (isBuffering === on) return;
+    isBuffering = on;
+    var btn = document.getElementById("player-toggle");
+    if (btn) btn.classList.toggle("buffering", on);
   }
 
   function updateButton() {
@@ -69,7 +88,36 @@
 
   function armTimer() {
     clearTimer();
-    loadTimer = setTimeout(skipToNext, SKIP_TIMEOUT_MS);
+    loadTimer = setTimeout(skipOnTimeout, SKIP_TIMEOUT_MS);
+  }
+
+  // --- buffering / stall handling ---
+
+  function onStalled() {
+    // Only react to genuine stalls while we're actively trying to play.
+    if (!audio || audio.paused || audio.ended) return;
+    if (!current) return;
+    setBuffering(true);
+    setStatus("buffering");
+    armTimer();
+    emit();
+  }
+
+  function onResumed() {
+    clearTimer();
+    setBuffering(false);
+    setStatus("");
+    emit();
+  }
+
+  function skipOnTimeout() {
+    if (current) {
+      console.warn(
+        "[Music Radio] Stream timed out after " + (SKIP_TIMEOUT_MS / 1000) +
+        "s of buffering — skipping: " + (current.name || current.url)
+      );
+    }
+    skipToNext();
   }
 
   function destroyHls() {
@@ -98,6 +146,7 @@
 
   function skipToNext() {
     clearTimer();
+    setBuffering(false);
     if (!queue.length) { setStatus("error"); return; }
     queueIndex += 1;
     if (queueIndex >= queue.length) {
@@ -145,10 +194,12 @@
     }
 
     setNowPlaying(station.name, false);
+    setBuffering(true);
     setStatus("buffering");
     armTimer();
     a.play().catch(function () {
       clearTimer();
+      setBuffering(false);
       setStatus("error");
     });
     emit();
