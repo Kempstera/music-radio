@@ -23,8 +23,7 @@
       "home.jazz_title": "Jazz",
       "home.jazz_desc": "Classic, smooth, and lounge jazz vibes.",
       "home.vibes_title": "Vibes",
-      "home.vibes_desc": "Ambient music tailored for your daily scenarios.",
-      "home.explore": "Listen now",
+      "home.vibes_desc": "Ambient music for your day.",
       "home.stations": "stations",
       "home.view_all": "View All",
 
@@ -78,8 +77,7 @@
       "home.jazz_title": "Jazz",
       "home.jazz_desc": "Klassischer, sanfter und Lounge-Jazz.",
       "home.vibes_title": "Vibes",
-      "home.vibes_desc": "Ambient-Musik für deine täglichen Momente.",
-      "home.explore": "Jetzt hören",
+      "home.vibes_desc": "Ambient-Musik für deinen Tag.",
       "home.stations": "Sender",
       "home.view_all": "Alle anzeigen",
 
@@ -133,8 +131,7 @@
       "home.jazz_title": "Jazz",
       "home.jazz_desc": "Jazz classique, smooth et lounge.",
       "home.vibes_title": "Vibes",
-      "home.vibes_desc": "Musique ambient adaptée à vos moments du quotidien.",
-      "home.explore": "Écouter",
+      "home.vibes_desc": "Musique ambient pour votre journée.",
       "home.stations": "stations",
       "home.view_all": "Tout afficher",
 
@@ -188,8 +185,7 @@
       "home.jazz_title": "Jazz",
       "home.jazz_desc": "Jazz classico, smooth e lounge.",
       "home.vibes_title": "Vibes",
-      "home.vibes_desc": "Musica ambient su misura per i tuoi momenti quotidiani.",
-      "home.explore": "Ascolta ora",
+      "home.vibes_desc": "Musica ambient per la tua giornata.",
       "home.stations": "stazioni",
       "home.view_all": "Mostra tutti",
 
@@ -243,8 +239,7 @@
       "home.jazz_title": "Jazz",
       "home.jazz_desc": "Jazz clásico, suave y lounge.",
       "home.vibes_title": "Vibes",
-      "home.vibes_desc": "Música ambient adaptada a tus momentos diarios.",
-      "home.explore": "Escuchar ahora",
+      "home.vibes_desc": "Música ambient para tu día.",
       "home.stations": "emisoras",
       "home.view_all": "Ver todo",
 
