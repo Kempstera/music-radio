@@ -1,6 +1,6 @@
 /**
  * Music Radio — i18n dictionary + language management (vanilla JS)
- * 5 languages: English, Deutsch, Français, Italiano, Español
+ * 6 languages: English, Cymraeg, Deutsch, Français, Italiano, Español
  */
 (function () {
   "use strict";
@@ -58,6 +58,60 @@
       "common.loading": "Loading stations…",
       "common.no_stations": "No stations available",
       "common.buffering": "Buffering…"
+    },
+
+    cy: {
+      brand: "Music Radio",
+      tagline: "Radio Gwe Aml-Sianel",
+
+      "nav.home": "Hafan",
+      "nav.classical": "Clasurol",
+      "nav.jazz": "Jazz",
+      "nav.vibes": "Awyrgylch",
+
+      "home.title": "Music Radio — Radio Gwe Aml-Sianel",
+      "home.hero_title": "Eich Trac Sain ar gyfer Pob Eiliad.",
+      "home.hero_sub": "Clasurol, Jazz ac Awyrgylch dethol — ffrydiau byw o bedwar ban byd.",
+      "home.classical_title": "Clasurol",
+      "home.classical_desc": "Cerddoriaeth gerddorfaol a siambr gain.",
+      "home.jazz_title": "Jazz",
+      "home.jazz_desc": "Awyrgylch jazz clasurol, llyfn a lolfa.",
+      "home.vibes_title": "Awyrgylch",
+      "home.vibes_desc": "Cerddoriaeth amgylchynol i'ch diwrnod.",
+      "home.stations": "gorsafoedd",
+      "home.view_all": "Gweld y Cyfan",
+
+      "classical.title": "Radio Clasurol",
+      "classical.subtitle": "Cerddoriaeth glasurol bur, wedi'i threfnu yn ôl rhanbarth daearyddol.",
+      "classical.choose_region": "Dewiswch ranbarth",
+      "classical.stations": "gorsafoedd",
+      "classical.top_overall": "Detholiad 20 Uchaf",
+
+      "jazz.title": "Radio Jazz",
+      "jazz.subtitle": "Ymlaciol a rhamantus, wedi'i drefnu yn ôl is-genre.",
+      "jazz.choose": "Dewiswch is-genre",
+      "jazz.stations": "gorsafoedd",
+
+      "vibes.title": "Radio Awyrgylch",
+      "vibes.subtitle": "Tirluniau sain amgylchynol a seiliedig ar senario.",
+      "vibes.choose": "Dewiswch senario",
+      "vibes.stations": "traciau",
+
+      "player.now_playing": "Yn Chwarae Nawr",
+      "player.nothing": "Dewiswch orsaf i ddechrau",
+      "player.play": "Chwarae",
+      "player.pause": "Seibio",
+      "player.volume": "Cyfaint",
+      "player.loading": "Yn byffro…",
+      "player.error": "Ffrwd ddim ar gael",
+
+      "footer.visitors": "Ymwelwyr",
+      "footer.disclaimer": "Mae'r wefan hon at ddefnydd personol. Daw'r holl ffrydiau sain o ffynonellau rhyngrwyd cyhoeddus. Nid ydym yn cynnal unrhyw ffeiliau cyfryngau.",
+
+      "common.back": "Dychwelyd i'r Hafan",
+      "common.loading": "Wrthi'n llwytho gorsafoedd…",
+      "common.no_stations": "Dim gorsafoedd ar gael",
+      "common.buffering": "Yn byffro…"
     },
 
     de: {
@@ -279,6 +333,7 @@
 
   var LANGUAGES = [
     { code: "en", label: "English" },
+    { code: "cy", label: "Cymraeg" },
     { code: "de", label: "Deutsch" },
     { code: "fr", label: "Français" },
     { code: "it", label: "Italiano" },
