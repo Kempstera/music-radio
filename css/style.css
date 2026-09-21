@@ -16,6 +16,8 @@
     "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
   --font-serif: "Playfair Display", "New York", "Iowan Old Style",
     "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-slogan: "Cormorant Garamond", "Playfair Display", "New York",
+    "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --nav-h: 60px;
   --player-h: 84px;
   --accent: #0071E3;
@@ -105,15 +107,28 @@ body[data-page="vibes"] { --accent: #0E7C86; }
   color: var(--text);
   animation: fadeInUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+.hero h1.slogan {
+  font-family: var(--font-slogan);
+  font-size: clamp(2.6rem, 6vw, 3.9rem);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.12;
+  animation: elegantFadeUp 4s ease-out forwards;
+}
 .hero p {
   font-size: 1.1rem;
   color: var(--text-2);
   margin: 0;
-  animation: fadeInUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  animation: elegantFadeUp 4s ease-out 0.7s both;
 }
 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes elegantFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 

@@ -57,7 +57,11 @@ GLOBAL_NEGATIVE = [
 ]
 
 # Classical additionally excludes these genre/format tags (pure classical only)
-CLASSICAL_EXTRA_NEGATIVE = ["talk", "pop", "rock", "oldies"]
+CLASSICAL_EXTRA_NEGATIVE = [
+    "talk", "pop", "rock", "oldies",
+    # Non-Western-classical styles — excluded from the Classical category
+    "folk", "world", "indian", "hindustani", "carnatic",
+]
 
 # backfilled tags: bebop/hardbop/postbop for jazz; driving/travel/journey/highway for vibes
 JAZZ_TAGS = [

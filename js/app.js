@@ -17,6 +17,9 @@
     "Asia", "South America", "Africa", "Global / International"
   ];
 
+  // Strict whitelist for the "Top 20 Selected" showcase — country codes only.
+  var TOP20_COUNTRIES = ["GB", "IM", "JE", "GG", "US", "DE", "FR", "CH", "NL"];
+
   // Flat list of stations in render order — also the auto-skip queue source.
   var renderList = [];
 
@@ -136,7 +139,10 @@
   function overallTop20() {
     var all = [];
     Object.keys(data[CATEGORY] || {}).forEach(function (g) {
-      all = all.concat(data[CATEGORY][g]);
+      (data[CATEGORY][g] || []).forEach(function (s) {
+        var cc = (s.country || "").toUpperCase();
+        if (TOP20_COUNTRIES.indexOf(cc) !== -1) all.push(s);
+      });
     });
     return qualitySort(all).slice(0, TOP_N);
   }
