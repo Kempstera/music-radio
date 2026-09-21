@@ -15,6 +15,7 @@
   var queueIndex = -1;
   var loadTimer = null; // dead-stream / stall watchdog
   var isBuffering = false;
+  var autoplayArmed = false; // one-shot click/touch fallback for blocked autoplay
   var stateCb = null;
   var skipCb = null;
 
@@ -110,6 +111,24 @@
     emit();
   }
 
+  // Autoplay was blocked (unmuted audio needs a user gesture). Arm a one-shot
+  // listener so the very first click/tap anywhere starts the background music.
+  function armFirstGesture() {
+    if (autoplayArmed) return;
+    autoplayArmed = true;
+    function resume() {
+      autoplayArmed = false;
+      if (!current || !audio) return;
+      if (!audio.paused) return; // already playing
+      setBuffering(true);
+      setStatus("buffering");
+      armTimer();
+      audio.play().catch(function () { setStatus("error"); });
+    }
+    document.body.addEventListener("click", resume, { once: true });
+    document.body.addEventListener("touchstart", resume, { once: true });
+  }
+
   function skipOnTimeout() {
     if (current) {
       console.warn(
@@ -162,7 +181,7 @@
     if (skipCb) skipCb(queueIndex);
   }
 
-  function loadStation(station) {
+  function loadStation(station, isAutoplay) {
     if (!station || !station.url) return;
     current = station;
     var a = ensureAudio();
@@ -200,7 +219,12 @@
     a.play().catch(function () {
       clearTimer();
       setBuffering(false);
-      setStatus("error");
+      if (isAutoplay) {
+        // Autoplay blocked by the browser — wait for the first user gesture.
+        armFirstGesture();
+      } else {
+        setStatus("error");
+      }
     });
     emit();
   }
@@ -213,6 +237,12 @@
 
   function load(station) {
     loadList([station], 0);
+  }
+
+  // Background ambient track: try to play immediately, fall back to the first
+  // user gesture if the browser blocks unmuted autoplay.
+  function autoplay(station) {
+    loadStation(station, true);
   }
 
   function toggle() {
@@ -246,6 +276,7 @@
     init: init,
     load: load,
     loadList: loadList,
+    autoplay: autoplay,
     toggle: toggle,
     current: function () { return current; },
     onStateChange: function (cb) { stateCb = cb; },
