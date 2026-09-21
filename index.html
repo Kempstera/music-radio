@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="home.title">Radio Atlas — Multi-Channel Web Radio</title>
+  <meta name="description" content="Multi-channel web radio: Classical, Jazz and Vibes — live streams from around the globe." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="home">
+  <nav class="site-nav">
+    <span class="nav-brand" data-i18n="brand">Radio Atlas</span>
+    <div class="nav-links">
+      <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+      <a href="classical.html" data-i18n="nav.classical">Classical</a>
+      <a href="jazz.html" data-i18n="nav.jazz">Jazz</a>
+      <a href="vibe.html" data-i18n="nav.vibes">Vibes</a>
+    </div>
+    <div class="lang-wrap">
+      <select id="lang-switcher" aria-label="Language"></select>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1 data-i18n="home.hero_title">Three Worlds of Sound</h1>
+    <p data-i18n="home.hero_sub">Classical, Jazz and curated Vibes — live streams from around the globe.</p>
+  </header>
+
+  <main class="wrap">
+    <div class="portal-grid">
+      <a class="portal classical" href="classical.html">
+        <h2 data-i18n="home.classical_title">Classical</h2>
+        <p data-i18n="home.classical_desc">Elegant orchestral and chamber music, organized by region.</p>
+        <span class="go" data-i18n="home.explore">Listen now</span>
+      </a>
+      <a class="portal jazz" href="jazz.html">
+        <h2 data-i18n="home.jazz_title">Jazz</h2>
+        <p data-i18n="home.jazz_desc">Smooth, swing, bebop and more — organized by sub-genre.</p>
+        <span class="go" data-i18n="home.explore">Listen now</span>
+      </a>
+      <a class="portal vibes" href="vibe.html">
+        <h2 data-i18n="home.vibes_title">Vibes</h2>
+        <p data-i18n="home.vibes_desc">Ambient soundscapes for every moment — organized by scenario.</p>
+        <span class="go" data-i18n="home.explore">Listen now</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="visitor-badge" id="visitor-badge" aria-label="Visitors"></div>
+    <p data-i18n="footer.disclaimer">This website is for personal use. All audio streams are aggregated from public internet sources via Radio-Browser. We do not host any media files.</p>
+  </footer>
+
+  <div class="audio-bar" id="audio-bar">
+    <div class="np">
+      <div class="np-label" data-i18n="player.now_playing">Now Playing</div>
+      <div class="np-name empty" id="np-name" data-i18n="player.nothing">Select a station to begin</div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="player-toggle" aria-label="Play">
+        <span data-icon>▶</span>
+      </button>
+    </div>
+    <div class="status" id="player-status"></div>
+    <div class="vol">
+      <span id="vol-icon">🔊</span>
+      <input type="range" id="vol-range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/counter.js"></script>
+  <script>
+    I18N.init();
+    Player.init();
+    Counter.init();
+  </script>
+</body>
+</html>

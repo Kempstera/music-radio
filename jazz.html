@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="jazz.title">Jazz Radio</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="jazz" data-category="jazz" data-group-label="jazz.stations">
+  <nav class="site-nav">
+    <span class="nav-brand" data-i18n="brand">Radio Atlas</span>
+    <div class="nav-links">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="classical.html" data-i18n="nav.classical">Classical</a>
+      <a href="jazz.html" class="active" data-i18n="nav.jazz">Jazz</a>
+      <a href="vibe.html" data-i18n="nav.vibes">Vibes</a>
+    </div>
+    <div class="lang-wrap">
+      <select id="lang-switcher" aria-label="Language"></select>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1 data-i18n="jazz.title">Jazz Radio</h1>
+    <p data-i18n="jazz.subtitle">Relaxed and romantic, organized by sub-genre.</p>
+  </header>
+
+  <main class="wrap">
+    <a class="back-btn" href="index.html">
+      <span aria-hidden="true">←</span><span data-i18n="common.back">Return to Home</span>
+    </a>
+
+    <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Sub-genres"></div>
+    <div id="loading" data-i18n="common.loading">Loading stations…</div>
+    <div id="stations"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="visitor-badge" id="visitor-badge" aria-label="Visitors"></div>
+    <p data-i18n="footer.disclaimer">This website is for personal use. All audio streams are aggregated from public internet sources via Radio-Browser. We do not host any media files.</p>
+  </footer>
+
+  <div class="audio-bar" id="audio-bar">
+    <div class="np">
+      <div class="np-label" data-i18n="player.now_playing">Now Playing</div>
+      <div class="np-name empty" id="np-name" data-i18n="player.nothing">Select a station to begin</div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="player-toggle" aria-label="Play">
+        <span data-icon>▶</span>
+      </button>
+    </div>
+    <div class="status" id="player-status"></div>
+    <div class="vol">
+      <span id="vol-icon">🔊</span>
+      <input type="range" id="vol-range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/counter.js"></script>
+  <script src="hls.min.js"></script>
+  <script>
+    I18N.init();
+    Player.init();
+    Counter.init();
+  </script>
+</body>
+</html>
