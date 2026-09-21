@@ -1,5 +1,5 @@
 /**
- * Radio Atlas — i18n dictionary + language management (vanilla JS)
+ * Music Radio — i18n dictionary + language management (vanilla JS)
  * 5 languages: English, Deutsch, Français, Italiano, Español
  */
 (function () {
@@ -7,7 +7,7 @@
 
   var I18N = {
     en: {
-      brand: "Radio Atlas",
+      brand: "Music Radio",
       tagline: "Multi-Channel Web Radio",
 
       "nav.home": "Home",
@@ -15,8 +15,8 @@
       "nav.jazz": "Jazz",
       "nav.vibes": "Vibes",
 
-      "home.title": "Radio Atlas — Multi-Channel Web Radio",
-      "home.hero_title": "Three Worlds of Sound",
+      "home.title": "Music Radio — Multi-Channel Web Radio",
+      "home.hero_title": "Your Soundtrack for Every Moment.",
       "home.hero_sub": "Classical, Jazz and curated Vibes — live streams from around the globe.",
       "home.classical_title": "Classical",
       "home.classical_desc": "Elegant orchestral and chamber music, organized by region.",
@@ -26,11 +26,13 @@
       "home.vibes_desc": "Ambient soundscapes for every moment — organized by scenario.",
       "home.explore": "Listen now",
       "home.stations": "stations",
+      "home.view_all": "View All",
 
       "classical.title": "Classical Radio",
       "classical.subtitle": "Pure classical music, organized by geographic region.",
       "classical.choose_region": "Choose a region",
       "classical.stations": "stations",
+      "classical.top_overall": "Top 20 Overall",
 
       "jazz.title": "Jazz Radio",
       "jazz.subtitle": "Relaxed and romantic, organized by sub-genre.",
@@ -51,7 +53,7 @@
       "player.error": "Stream unavailable",
 
       "footer.visitors": "Visitors",
-      "footer.disclaimer": "This website is for personal use. All audio streams are aggregated from public internet sources via Radio-Browser. We do not host any media files.",
+      "footer.disclaimer": "This website is for personal use. All audio streams are aggregated from public internet sources. We do not host any media files.",
 
       "common.back": "Return to Home",
       "common.loading": "Loading stations…",
@@ -60,7 +62,7 @@
     },
 
     de: {
-      brand: "Radio Atlas",
+      brand: "Music Radio",
       tagline: "Mehrkanal-Webradio",
 
       "nav.home": "Startseite",
@@ -68,8 +70,8 @@
       "nav.jazz": "Jazz",
       "nav.vibes": "Vibes",
 
-      "home.title": "Radio Atlas — Mehrkanal-Webradio",
-      "home.hero_title": "Drei Welten des Klangs",
+      "home.title": "Music Radio — Mehrkanal-Webradio",
+      "home.hero_title": "Dein Soundtrack für jeden Moment.",
       "home.hero_sub": "Klassik, Jazz und kuratierte Vibes — Livestreams aus aller Welt.",
       "home.classical_title": "Klassik",
       "home.classical_desc": "Elegante Orchester- und Kammermusik, nach Region geordnet.",
@@ -79,11 +81,13 @@
       "home.vibes_desc": "Ambiente Klanglandschaften für jeden Moment — nach Szenerie geordnet.",
       "home.explore": "Jetzt hören",
       "home.stations": "Sender",
+      "home.view_all": "Alle anzeigen",
 
       "classical.title": "Klassikradio",
       "classical.subtitle": "Reine klassische Musik, nach geografischer Region geordnet.",
       "classical.choose_region": "Region wählen",
       "classical.stations": "Sender",
+      "classical.top_overall": "Top 20 gesamt",
 
       "jazz.title": "Jazzradio",
       "jazz.subtitle": "Entspannt und romantisch, nach Subgenre geordnet.",
@@ -104,7 +108,7 @@
       "player.error": "Stream nicht verfügbar",
 
       "footer.visitors": "Besucher",
-      "footer.disclaimer": "Diese Website dient dem persönlichen Gebrauch. Alle Audiostreams stammen aus öffentlichen Internetquellen über Radio-Browser. Wir hosten keine Mediendateien.",
+      "footer.disclaimer": "Diese Website dient dem persönlichen Gebrauch. Alle Audiostreams stammen aus öffentlichen Internetquellen. Wir hosten keine Mediendateien.",
 
       "common.back": "Zurück zur Startseite",
       "common.loading": "Sender werden geladen…",
@@ -113,7 +117,7 @@
     },
 
     fr: {
-      brand: "Radio Atlas",
+      brand: "Music Radio",
       tagline: "Radio web multicanaux",
 
       "nav.home": "Accueil",
@@ -121,8 +125,8 @@
       "nav.jazz": "Jazz",
       "nav.vibes": "Vibes",
 
-      "home.title": "Radio Atlas — Radio web multicanaux",
-      "home.hero_title": "Trois univers sonores",
+      "home.title": "Music Radio — Radio web multicanaux",
+      "home.hero_title": "Votre bande-son pour chaque instant.",
       "home.hero_sub": "Classique, jazz et Vibes sélectionnés — flux en direct du monde entier.",
       "home.classical_title": "Classique",
       "home.classical_desc": "Musique orchestrale et de chambre élégante, classée par région.",
@@ -132,11 +136,13 @@
       "home.vibes_desc": "Ambiances sonores pour chaque instant — classées par scénario.",
       "home.explore": "Écouter",
       "home.stations": "stations",
+      "home.view_all": "Tout afficher",
 
       "classical.title": "Radio Classique",
       "classical.subtitle": "Musique classique pure, classée par région géographique.",
       "classical.choose_region": "Choisir une région",
       "classical.stations": "stations",
+      "classical.top_overall": "Top 20 global",
 
       "jazz.title": "Radio Jazz",
       "jazz.subtitle": "Détendu et romantique, classé par sous-genre.",
@@ -157,7 +163,7 @@
       "player.error": "Flux indisponible",
 
       "footer.visitors": "Visiteurs",
-      "footer.disclaimer": "Ce site est à usage personnel. Tous les flux audio proviennent de sources Internet publiques via Radio-Browser. Nous n'hébergeons aucun fichier multimédia.",
+      "footer.disclaimer": "Ce site est à usage personnel. Tous les flux audio proviennent de sources Internet publiques. Nous n'hébergeons aucun fichier multimédia.",
 
       "common.back": "Retour à l'accueil",
       "common.loading": "Chargement des stations…",
@@ -166,7 +172,7 @@
     },
 
     it: {
-      brand: "Radio Atlas",
+      brand: "Music Radio",
       tagline: "Radio web multicanale",
 
       "nav.home": "Home",
@@ -174,8 +180,8 @@
       "nav.jazz": "Jazz",
       "nav.vibes": "Vibes",
 
-      "home.title": "Radio Atlas — Radio web multicanale",
-      "home.hero_title": "Tre mondi di suono",
+      "home.title": "Music Radio — Radio web multicanale",
+      "home.hero_title": "La tua colonna sonora per ogni momento.",
       "home.hero_sub": "Classica, jazz e Vibes curati — streaming dal vivo da tutto il mondo.",
       "home.classical_title": "Classica",
       "home.classical_desc": "Elegante musica orchestrale e da camera, organizzata per regione.",
@@ -185,11 +191,13 @@
       "home.vibes_desc": "Paesaggi sonori ambient per ogni momento — organizzati per scenario.",
       "home.explore": "Ascolta ora",
       "home.stations": "stazioni",
+      "home.view_all": "Mostra tutti",
 
       "classical.title": "Radio Classica",
       "classical.subtitle": "Musica classica pura, organizzata per regione geografica.",
       "classical.choose_region": "Scegli una regione",
       "classical.stations": "stazioni",
+      "classical.top_overall": "Top 20 complessiva",
 
       "jazz.title": "Radio Jazz",
       "jazz.subtitle": "Rilassato e romantico, organizzato per sottogenere.",
@@ -210,7 +218,7 @@
       "player.error": "Stream non disponibile",
 
       "footer.visitors": "Visitatori",
-      "footer.disclaimer": "Questo sito è per uso personale. Tutti i flussi audio provengono da fonti internet pubbliche tramite Radio-Browser. Non ospitiamo alcun file multimediale.",
+      "footer.disclaimer": "Questo sito è per uso personale. Tutti i flussi audio provengono da fonti internet pubbliche. Non ospitiamo alcun file multimediale.",
 
       "common.back": "Torna alla home",
       "common.loading": "Caricamento stazioni…",
@@ -219,7 +227,7 @@
     },
 
     es: {
-      brand: "Radio Atlas",
+      brand: "Music Radio",
       tagline: "Radio web multicanal",
 
       "nav.home": "Inicio",
@@ -227,8 +235,8 @@
       "nav.jazz": "Jazz",
       "nav.vibes": "Vibes",
 
-      "home.title": "Radio Atlas — Radio web multicanal",
-      "home.hero_title": "Tres mundos de sonido",
+      "home.title": "Music Radio — Radio web multicanal",
+      "home.hero_title": "Tu banda sonora para cada momento.",
       "home.hero_sub": "Clásica, jazz y Vibes seleccionados — emisiones en directo de todo el mundo.",
       "home.classical_title": "Clásica",
       "home.classical_desc": "Elegante música orquestal y de cámara, organizada por región.",
@@ -238,11 +246,13 @@
       "home.vibes_desc": "Paisajes sonoros ambient para cada momento — organizados por escenario.",
       "home.explore": "Escuchar ahora",
       "home.stations": "emisoras",
+      "home.view_all": "Ver todo",
 
       "classical.title": "Radio Clásica",
       "classical.subtitle": "Música clásica pura, organizada por región geográfica.",
       "classical.choose_region": "Elige una región",
       "classical.stations": "emisoras",
+      "classical.top_overall": "Top 20 general",
 
       "jazz.title": "Radio Jazz",
       "jazz.subtitle": "Relajado y romántico, organizado por subgénero.",
@@ -263,7 +273,7 @@
       "player.error": "Stream no disponible",
 
       "footer.visitors": "Visitantes",
-      "footer.disclaimer": "Este sitio es de uso personal. Todas las emisiones de audio provienen de fuentes públicas de internet vía Radio-Browser. No alojamos ningún archivo multimedia.",
+      "footer.disclaimer": "Este sitio es de uso personal. Todas las emisiones de audio provienen de fuentes públicas de internet. No alojamos ningún archivo multimedia.",
 
       "common.back": "Volver al inicio",
       "common.loading": "Cargando emisoras…",
@@ -284,7 +294,7 @@
 
   function detectLang() {
     var saved = null;
-    try { saved = localStorage.getItem("radio-atlas-lang"); } catch (e) { /* noop */ }
+    try { saved = localStorage.getItem("music-radio-lang"); } catch (e) { /* noop */ }
     if (saved && I18N[saved]) return saved;
     var nav = (navigator.language || "en").toLowerCase();
     var two = nav.slice(0, 2);
@@ -338,7 +348,7 @@
   function setLang(code) {
     if (!I18N[code]) code = "en";
     currentLang = code;
-    try { localStorage.setItem("radio-atlas-lang", code); } catch (e) { /* noop */ }
+    try { localStorage.setItem("music-radio-lang", code); } catch (e) { /* noop */ }
     applyTranslations();
     if (window.onLanguageChange) window.onLanguageChange(code);
   }

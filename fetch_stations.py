@@ -50,10 +50,14 @@ GLOBAL_NEGATIVE = [
     "sermon", "scripture",
     "quran", "qur'an", "islamic", "islam", "muslim", "recitation", "nasheed",
     "adhan", "tilawat", "mushaf", "sheikh", "tafsir",
+    # Explicit user-requested exclusions (ALL categories): traffic / news / info
+    "traffic", "news", "information",
+    # Chinese equivalents: traffic(交通), news(新闻), info(资讯), general/misc(综合)
+    "交通", "新闻", "资讯", "综合",
 ]
 
 # Classical additionally excludes these genre/format tags (pure classical only)
-CLASSICAL_EXTRA_NEGATIVE = ["talk", "news", "pop", "rock", "oldies"]
+CLASSICAL_EXTRA_NEGATIVE = ["talk", "pop", "rock", "oldies"]
 
 # backfilled tags: bebop/hardbop/postbop for jazz; driving/travel/journey/highway for vibes
 JAZZ_TAGS = [

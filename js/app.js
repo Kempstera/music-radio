@@ -1,129 +1,196 @@
 /**
- * Radio Atlas — station loading & rendering (shared across subpages)
- * Loads stations.json and renders cards grouped by category/region/sub-genre/scenario.
+ * Music Radio — station loading & rendering (shared across subpages)
+ * Loads stations.json and renders cards grouped by region / sub-genre / scenario.
+ * Classical renders stacked sections in a fixed order (Top 20 overall first);
+ * Jazz & Vibes render a filter-bar selector. Every section shows Top 20 + "View All".
  */
 (function () {
   "use strict";
 
   var data = null; // parsed stations.json
-  var activeGroup = null;
-
   var CATEGORY = document.body.getAttribute("data-category"); // "classical" | "jazz" | "vibes"
   var GROUP_LABEL = document.body.getAttribute("data-group-label"); // i18n key
+  var TOP_N = 20;
+
+  var CLASSICAL_ORDER = [
+    "UK", "USA", "Germany", "France", "Italy", "Spain", "Nordic",
+    "Asia", "South America", "Africa", "Global / International"
+  ];
+
+  // Flat list of stations in render order — also the auto-skip queue source.
+  var renderList = [];
 
   function t(key, vars) {
     return window.I18N ? window.I18N.t(key, vars) : key;
   }
 
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  function qualitySort(list) {
+    return list.slice().sort(function (a, b) {
+      return (b.clickcount - a.clickcount) || (b.votes - a.votes);
+    });
   }
 
-  function renderGroup(group, stations) {
-    var wrap = document.getElementById("stations");
-    if (!wrap) return;
-    wrap.innerHTML = "";
+  function metaText(s) {
+    var bits = [];
+    if (s.country) bits.push(s.country);
+    if (s.codec) bits.push(s.codec.toUpperCase());
+    if (s.bitrate) bits.push(s.bitrate + " kbps");
+    return bits.join(" · ");
+  }
+
+  function playAt(index) {
+    var st = renderList[index];
+    if (!st) return;
+    window.Player.loadList(renderList, index);
+    markActive(index);
+  }
+
+  function markActive(index) {
+    document.querySelectorAll(".card.playing").forEach(function (c) {
+      c.classList.remove("playing");
+    });
+    var card = document.querySelector('.card[data-index="' + index + '"]');
+    if (card) card.classList.add("playing");
+  }
+
+  function scrollToIndex(index) {
+    var card = document.querySelector('.card[data-index="' + index + '"]');
+    if (card && typeof card.scrollIntoView === "function") {
+      card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+
+  function makeCard(s) {
+    var index = renderList.length;
+    renderList.push(s);
+
+    var card = document.createElement("div");
+    card.className = "card";
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", s.name);
+    card.setAttribute("data-index", index);
+
+    var name = document.createElement("div");
+    name.className = "c-name";
+    name.textContent = s.name;
+
+    var meta = document.createElement("div");
+    meta.className = "c-meta";
+    meta.textContent = metaText(s);
+
+    var play = document.createElement("div");
+    play.className = "c-play";
+    play.textContent = "▶";
+
+    card.appendChild(name);
+    card.appendChild(meta);
+    card.appendChild(play);
+
+    card.addEventListener("click", function () { playAt(index); });
+    card.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        playAt(index);
+      }
+    });
+
+    return card;
+  }
+
+  function renderSection(wrap, title, stations) {
+    var section = document.createElement("section");
+    section.className = "station-section";
 
     var head = document.createElement("div");
     head.className = "section-head";
     var h2 = document.createElement("h2");
-    h2.textContent = group;
+    h2.textContent = title;
     var count = document.createElement("span");
     count.className = "count";
     count.textContent = stations.length + " " + t(GROUP_LABEL || "home.stations");
     head.appendChild(h2);
     head.appendChild(count);
-    wrap.appendChild(head);
+    section.appendChild(head);
 
     var grid = document.createElement("div");
     grid.className = "grid";
+    stations.slice(0, TOP_N).forEach(function (s) { grid.appendChild(makeCard(s)); });
+    section.appendChild(grid);
 
-    stations.forEach(function (s) {
-      var card = document.createElement("div");
-      card.className = "card";
-      card.setAttribute("role", "button");
-      card.setAttribute("tabindex", "0");
-      card.setAttribute("aria-label", s.name);
-      if (CATEGORY === "vibes") card.setAttribute("data-scenario", group);
-
-      var name = document.createElement("div");
-      name.className = "c-name";
-      name.textContent = s.name;
-
-      var meta = document.createElement("div");
-      meta.className = "c-meta";
-      var bits = [];
-      if (s.country) bits.push(s.country);
-      if (s.codec) bits.push(s.codec.toUpperCase());
-      if (s.bitrate) bits.push(s.bitrate + " kbps");
-      meta.textContent = bits.join(" · ");
-
-      var play = document.createElement("div");
-      play.className = "c-play";
-      play.textContent = "▶";
-
-      card.appendChild(name);
-      card.appendChild(meta);
-      card.appendChild(play);
-
-      card.addEventListener("click", function () {
-        window.Player.load({
-          name: s.name,
-          url: s.url,
-          codec: s.codec,
-          group: group,
-          cat: CATEGORY
-        });
-        markActive(card);
+    if (stations.length > TOP_N) {
+      var remaining = stations.length - TOP_N;
+      var btn = document.createElement("button");
+      btn.className = "view-all";
+      btn.textContent = t("home.view_all") + " · " + remaining;
+      btn.addEventListener("click", function () {
+        stations.slice(TOP_N).forEach(function (s) { grid.appendChild(makeCard(s)); });
+        btn.remove();
       });
-      card.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          card.click();
-        }
-      });
+      section.appendChild(btn);
+    }
 
-      grid.appendChild(card);
-    });
-
-    wrap.appendChild(grid);
+    wrap.appendChild(section);
   }
 
-  function markActive(card) {
-    document.querySelectorAll(".card.playing").forEach(function (c) {
-      c.classList.remove("playing");
+  function overallTop20() {
+    var all = [];
+    Object.keys(data[CATEGORY] || {}).forEach(function (g) {
+      all = all.concat(data[CATEGORY][g]);
     });
-    card.classList.add("playing");
+    return qualitySort(all).slice(0, TOP_N);
+  }
+
+  function renderClassical() {
+    var wrap = document.getElementById("stations");
+    if (!wrap) return;
+    wrap.innerHTML = "";
+    renderList = [];
+
+    var top = overallTop20();
+    if (top.length) renderSection(wrap, t("classical.top_overall"), top);
+
+    var buckets = data[CATEGORY] || {};
+    var ordered = CLASSICAL_ORDER.filter(function (g) {
+      return buckets[g] && buckets[g].length;
+    });
+    Object.keys(buckets).sort().forEach(function (g) {
+      if (CLASSICAL_ORDER.indexOf(g) === -1 && buckets[g].length) ordered.push(g);
+    });
+    ordered.forEach(function (g) {
+      renderSection(wrap, g, qualitySort(buckets[g]));
+    });
   }
 
   function buildFilterBar(groups) {
     var bar = document.getElementById("filter-bar");
-    if (!bar) return;
+    var wrap = document.getElementById("stations");
+    if (!bar || !wrap) return;
     bar.innerHTML = "";
-    var first = null;
 
     groups.forEach(function (group) {
       var stations = data[CATEGORY][group] || [];
       var btn = document.createElement("button");
       btn.textContent = group + " (" + stations.length + ")";
-      if (!first) first = { group: group, btn: btn };
       btn.addEventListener("click", function () {
-        activeGroup = group;
         bar.querySelectorAll("button").forEach(function (b) { b.classList.remove("active"); });
         btn.classList.add("active");
-        renderGroup(group, stations);
+        wrap.innerHTML = "";
+        renderList = [];
+        renderSection(wrap, group, qualitySort(stations));
       });
       bar.appendChild(btn);
     });
 
-    if (first) {
-      first.btn.classList.add("active");
-      activeGroup = first.group;
-      renderGroup(first.group, data[CATEGORY][first.group] || []);
+    var first = bar.querySelector("button");
+    if (first) first.click();
+  }
+
+  function rehighlightCurrent() {
+    if (!window.Player || !window.Player.current()) return;
+    var cur = window.Player.current();
+    for (var i = 0; i < renderList.length; i++) {
+      if (renderList[i].url === cur.url) { markActive(i); break; }
     }
   }
 
@@ -143,27 +210,40 @@
           if (wrap) wrap.textContent = t("common.no_stations");
           return;
         }
-        buildFilterBar(groups);
+        if (CATEGORY === "classical") {
+          var fb = document.getElementById("filter-bar");
+          if (fb) fb.style.display = "none";
+          renderClassical();
+        } else {
+          buildFilterBar(groups);
+        }
       })
       .catch(function (err) {
         if (statusEl) statusEl.textContent = t("common.no_stations") + " (" + err.message + ")";
       });
+
+    if (window.Player && window.Player.onAutoSkip) {
+      window.Player.onAutoSkip(function (index) {
+        markActive(index);
+        scrollToIndex(index);
+      });
+    }
   }
 
-  // re-render current group on language change (for counts/labels)
+  // re-render on language change
   window.onLanguageChange = function () {
-    if (data && activeGroup) {
-      renderGroup(activeGroup, data[CATEGORY][activeGroup] || []);
-      var statusEl = document.getElementById("loading");
-      if (statusEl && statusEl.style.display !== "none") {
-        statusEl.textContent = t("common.loading");
-      }
-      // refresh nothing-playing text
-      var np = document.getElementById("np-name");
-      if (np && !window.Player.current()) {
-        np.textContent = t("player.nothing");
-        np.classList.add("empty");
-      }
+    if (!data) return;
+    if (CATEGORY === "classical") {
+      renderClassical();
+    } else {
+      var active = document.querySelector("#filter-bar button.active");
+      if (active) active.click();
+    }
+    rehighlightCurrent();
+    var np = document.getElementById("np-name");
+    if (np && window.Player && !window.Player.current()) {
+      np.textContent = t("player.nothing");
+      np.classList.add("empty");
     }
   };
 
