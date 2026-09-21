@@ -265,11 +265,30 @@ body[data-page="vibes"] { --accent: #0E7C86; }
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
 .portal:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-.portal h2 { margin: 0 0 6px; font-size: 1.6rem; letter-spacing: -0.01em; }
-.portal p { margin: 0; font-size: 0.92rem; color: var(--text-2); line-height: 1.45; }
+.portal h2 { margin: 0 0 6px; font-size: 1.6rem; letter-spacing: -0.01em; position: relative; z-index: 1; }
+.portal p { margin: 0; font-size: 0.92rem; color: var(--text-2); line-height: 1.45; position: relative; z-index: 1; }
 .portal.classical { background: linear-gradient(135deg, #faf3e6, #f0e0c2); }
 .portal.jazz { background: linear-gradient(135deg, #f2ecf5, #e3d2ea); }
 .portal.vibes { background: linear-gradient(135deg, #e6f2f2, #cfe6e4); }
+
+/* Watermark background images (subtle, right-anchored, cropped) */
+.portal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 60%;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: 0;
+}
+.portal.classical::after { background-image: url("../assets/cello-bg.jpg"); }
+.portal.jazz::after { background-image: url("../assets/sax-bg.jpg"); }
+.portal.vibes::after { background-image: url("../assets/cafes-bg.jpg"); }
 
 /* ---------- Footer ---------- */
 .site-footer {
