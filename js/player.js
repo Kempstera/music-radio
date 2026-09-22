@@ -270,6 +270,15 @@
     setVolume(vol ? parseFloat(vol.value) : 0.8);
     setNowPlaying(null, true);
     updateButton();
+
+    // Stop playback when the page is hidden (tab switch / app background /
+    // closing the webview). Fixes Android WeChat built-in browser keeping the
+    // audio alive after the user leaves the page.
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden && audio && !audio.paused) {
+        audio.pause();
+      }
+    });
   }
 
   window.Player = {
