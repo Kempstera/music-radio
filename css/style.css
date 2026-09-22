@@ -27,6 +27,8 @@
 html, body { margin: 0; padding: 0; }
 
 body {
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-sans);
   color: var(--text);
   background: var(--bg);
@@ -35,6 +37,20 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+/* push the footer to the absolute bottom even on short pages */
+main {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+/* home: center the slogan + card group vertically in the free space */
+body[data-page="home"] main {
+  display: flex;
+  flex-direction: column;
+}
+body[data-page="home"] .hero { margin-top: auto; }
+body[data-page="home"] .portal-grid { margin-bottom: auto; }
 
 a { color: inherit; text-decoration: none; }
 
@@ -97,7 +113,7 @@ body[data-page="vibes"] { --accent: #0E7C86; }
 }
 
 /* ---------- Hero ---------- */
-.hero { text-align: center; padding: 64px 20px 40px; }
+.hero { text-align: center; padding: 24px 20px 40px; }
 .hero h1 {
   font-family: var(--font-serif);
   font-size: clamp(2.2rem, 5.5vw, 3.4rem);
@@ -133,6 +149,11 @@ body[data-page="vibes"] { --accent: #0E7C86; }
 }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+/* subpages breathe wider: sidebar + content share a roomier canvas */
+body[data-page="classical"] .wrap,
+body[data-page="jazz"] .wrap,
+body[data-page="vibes"] .wrap { max-width: 1280px; }
 
 .back-btn {
   display: inline-flex;
@@ -226,7 +247,7 @@ body[data-page="vibes"] { --accent: #0E7C86; }
 .category-layout {
   display: grid;
   grid-template-columns: 230px minmax(0, 1fr);
-  gap: 34px;
+  gap: 48px;
   align-items: start;
   margin: 20px 0 44px;
 }
@@ -289,6 +310,7 @@ body[data-page="vibes"] { --accent: #0E7C86; }
 
 @media (prefers-reduced-motion: reduce) {
   .station-fade { animation: none; }
+  .portal, .portal:hover { transition: none; transform: none; }
 }
 
 @media (max-width: 860px) {
@@ -334,6 +356,7 @@ body[data-page="vibes"] { --accent: #0E7C86; }
   align-items: stretch;
   gap: 20px;
   margin: 20px 0 44px;
+  perspective: 1200px;
 }
 .portal {
   border-radius: 20px;
@@ -347,9 +370,14 @@ body[data-page="vibes"] { --accent: #0E7C86; }
   overflow: hidden;
   color: var(--text);
   box-shadow: var(--shadow);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease-out;
+  will-change: transform;
 }
-.portal:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+.portal:hover {
+  transform: rotateX(3deg) rotateY(-6deg) scale(1.02);
+  box-shadow: 0 26px 52px rgba(0, 0, 0, 0.12);
+}
 .portal h2 { margin: 0 0 6px; font-size: 1.6rem; letter-spacing: -0.01em; position: relative; z-index: 1; }
 .portal p { margin: 0; font-size: 0.92rem; color: var(--text-2); line-height: 1.45; position: relative; z-index: 1; }
 .portal.classical { background: linear-gradient(135deg, #faf3e6, #f0e0c2); }
@@ -377,6 +405,7 @@ body[data-page="vibes"] { --accent: #0E7C86; }
 
 /* ---------- Footer ---------- */
 .site-footer {
+  width: 100%;
   max-width: 1080px;
   margin: 30px auto 0;
   padding: 20px;
@@ -482,5 +511,5 @@ body[data-page="vibes"] { --accent: #0E7C86; }
   .nav-brand { font-size: 0.95rem; }
   .nav-links a { padding: 6px 10px; font-size: 0.82rem; }
   .grid { grid-template-columns: 1fr; }
-  .hero { padding: 44px 16px 28px; }
+  .hero { padding: 24px 16px 28px; }
 }
