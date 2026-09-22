@@ -175,6 +175,7 @@
       setStatus("error");
       setNowPlaying(null, true);
       emit();
+      updateMediaSession();
       return;
     }
     loadStation(queue[queueIndex]);
@@ -215,6 +216,7 @@
     setNowPlaying(station.name, false);
     setBuffering(true);
     setStatus("buffering");
+    updateMediaSession();
     armTimer();
     a.play().catch(function () {
       clearTimer();
@@ -262,6 +264,65 @@
     if (icon) icon.textContent = v <= 0 ? "🔇" : v < 0.5 ? "🔉" : "🔊";
   }
 
+  // --- Media Session API (lock screen / car steering wheel controls) ---
+  var CATEGORY_KEYS = {
+    classical: "nav.classical",
+    jazz: "nav.jazz",
+    vibes: "nav.vibes"
+  };
+
+  function mediaSessionSupported() {
+    return "mediaSession" in navigator;
+  }
+
+  function categoryLabel() {
+    var cat = document.body.getAttribute("data-category");
+    if (cat && CATEGORY_KEYS[cat]) return t(CATEGORY_KEYS[cat]);
+    return cat ? (cat.charAt(0).toUpperCase() + cat.slice(1)) : "Music Radio";
+  }
+
+  function artworkUrl() {
+    try {
+      return new URL("apple-touch-icon.png", window.location.href).href;
+    } catch (e) {
+      return "apple-touch-icon.png";
+    }
+  }
+
+  function updateMediaSession() {
+    if (!mediaSessionSupported()) return;
+    if (!current) {
+      navigator.mediaSession.metadata = null;
+      return;
+    }
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: current.name,
+        artist: categoryLabel(),
+        album: "Music Radio",
+        artwork: [{ src: artworkUrl(), sizes: "180x180", type: "image/png" }]
+      });
+    } catch (e) { /* older browsers without MediaMetadata */ }
+  }
+
+  function setupMediaSession() {
+    if (!mediaSessionSupported()) return;
+    try {
+      navigator.mediaSession.setActionHandler("play", function () {
+        if (!current || !audio) return;
+        audio.play().catch(function () { setStatus("error"); });
+      });
+      navigator.mediaSession.setActionHandler("pause", function () {
+        if (audio) audio.pause();
+      });
+      navigator.mediaSession.setActionHandler("nexttrack", function () {
+        if (current) skipToNext();
+      });
+      // No previous-track support — hide the button rather than show a dead one.
+      navigator.mediaSession.setActionHandler("previoustrack", null);
+    } catch (e) { /* noop */ }
+  }
+
   function init() {
     var tb = document.getElementById("player-toggle");
     if (tb) tb.addEventListener("click", toggle);
@@ -270,15 +331,7 @@
     setVolume(vol ? parseFloat(vol.value) : 0.8);
     setNowPlaying(null, true);
     updateButton();
-
-    // Stop playback when the page is hidden (tab switch / app background /
-    // closing the webview). Fixes Android WeChat built-in browser keeping the
-    // audio alive after the user leaves the page.
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden && audio && !audio.paused) {
-        audio.pause();
-      }
-    });
+    setupMediaSession();
   }
 
   window.Player = {
