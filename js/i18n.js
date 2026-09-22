@@ -57,7 +57,9 @@
       "common.back": "Return to Home",
       "common.loading": "Loading stations…",
       "common.no_stations": "No stations available",
-      "common.buffering": "Buffering…"
+      "common.buffering": "Buffering…",
+      "common.all": "All",
+      "common.top_selected": "Top 20 Selected"
     },
 
     cy: {
@@ -111,7 +113,9 @@
       "common.back": "Dychwelyd i'r Hafan",
       "common.loading": "Wrthi'n llwytho gorsafoedd…",
       "common.no_stations": "Dim gorsafoedd ar gael",
-      "common.buffering": "Yn byffro…"
+      "common.buffering": "Yn byffro…",
+      "common.all": "Popeth",
+      "common.top_selected": "Detholiad 20 Uchaf"
     },
 
     de: {
@@ -165,7 +169,9 @@
       "common.back": "Zurück zur Startseite",
       "common.loading": "Sender werden geladen…",
       "common.no_stations": "Keine Sender verfügbar",
-      "common.buffering": "Puffert…"
+      "common.buffering": "Puffert…",
+      "common.all": "Alle",
+      "common.top_selected": "Top 20 Auswahl"
     },
 
     fr: {
@@ -219,7 +225,9 @@
       "common.back": "Retour à l'accueil",
       "common.loading": "Chargement des stations…",
       "common.no_stations": "Aucune station disponible",
-      "common.buffering": "Mise en mémoire tampon…"
+      "common.buffering": "Mise en mémoire tampon…",
+      "common.all": "Tout",
+      "common.top_selected": "Top 20 Sélection"
     },
 
     it: {
@@ -273,7 +281,9 @@
       "common.back": "Torna alla home",
       "common.loading": "Caricamento stazioni…",
       "common.no_stations": "Nessuna stazione disponibile",
-      "common.buffering": "Buffering…"
+      "common.buffering": "Buffering…",
+      "common.all": "Tutte",
+      "common.top_selected": "Top 20 Selezionati"
     },
 
     es: {
@@ -327,7 +337,9 @@
       "common.back": "Volver al inicio",
       "common.loading": "Cargando emisoras…",
       "common.no_stations": "No hay emisoras disponibles",
-      "common.buffering": "Cargando…"
+      "common.buffering": "Cargando…",
+      "common.all": "Todas",
+      "common.top_selected": "Top 20 Seleccionados"
     }
   };
 

@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=6.0" />
+  <link rel="stylesheet" href="css/style.css?v=10.0" />
 </head>
 <body data-page="classical" data-category="classical" data-group-label="classical.stations">
   <nav class="site-nav">
@@ -48,9 +48,13 @@
       <span aria-hidden="true">←</span><span data-i18n="common.back">Return to Home</span>
     </a>
 
-    <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Regions"></div>
-    <div id="loading" data-i18n="common.loading">Loading stations…</div>
-    <div id="stations"></div>
+    <div class="category-layout">
+      <aside class="category-nav" id="category-nav" role="tablist" aria-label="Regions"></aside>
+      <div class="category-main">
+        <div id="loading" data-i18n="common.loading">Loading stations…</div>
+        <div id="stations"></div>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -75,9 +79,9 @@
     </div>
   </div>
 
-  <script src="js/i18n.js?v=9.0"></script>
+  <script src="js/i18n.js?v=10.0"></script>
   <script src="js/player.js?v=7.0"></script>
-  <script src="js/app.js?v=2.0"></script>
+  <script src="js/app.js?v=10.0"></script>
   <script src="js/counter.js?v=2.0"></script>
   <script src="js/autoplay.js?v=8.0"></script>
   <script src="hls.min.js?v=2.0"></script>
