@@ -7,17 +7,16 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title data-i18n="home.title">Music Radio — Multi-Channel Web Radio</title>
-  <meta name="description" content="Your soundtrack for every moment — Classical, Jazz and Vibes, live streams from around the globe." />
+  <title data-i18n="fav.title">My Favorites</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=17.0" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=17.0" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=17.0" />
 </head>
-<body data-page="home">
+<body data-page="favorites">
   <nav class="site-nav">
     <span class="nav-brand">
       <svg class="logo" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -29,11 +28,11 @@
       <span data-i18n="brand">Music Radio</span>
     </span>
     <div class="nav-links">
-      <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+      <a href="index.html" data-i18n="nav.home">Home</a>
       <a href="classical.html" data-i18n="nav.classical">Classical</a>
       <a href="jazz.html" data-i18n="nav.jazz">Jazz</a>
       <a href="vibe.html" data-i18n="nav.vibes">Vibes</a>
-      <a href="favorites.html" id="favorites-link" data-i18n="fav.title" hidden>My Favorites</a>
+      <a href="favorites.html" class="active" id="favorites-link" data-i18n="fav.title">My Favorites</a>
     </div>
     <div class="lang-wrap">
       <select id="lang-switcher" aria-label="Language"></select>
@@ -42,25 +41,18 @@
     <button class="nav-guestbook" id="guestbook-open" type="button" data-i18n="guestbook.title">Guestbook</button>
   </nav>
 
+  <header class="hero">
+    <h1 data-i18n="fav.title">My Favorites</h1>
+    <p data-i18n="fav.subtitle">Your saved stations, all in one place.</p>
+  </header>
+
   <main class="wrap">
-    <header class="hero">
-      <h1 class="slogan" data-i18n="home.hero_title">Your Soundtrack for Every Moment.</h1>
-      <p data-i18n="home.hero_sub">Classical, Jazz and curated Vibes — live streams from around the globe.</p>
-    </header>
-    <div class="portal-grid">
-      <a class="portal classical" href="classical.html">
-        <h2 data-i18n="home.classical_title">Classical</h2>
-        <p data-i18n="home.classical_desc">Elegant orchestral and chamber music.</p>
-      </a>
-      <a class="portal jazz" href="jazz.html">
-        <h2 data-i18n="home.jazz_title">Jazz</h2>
-        <p data-i18n="home.jazz_desc">Classic, smooth, and lounge jazz vibes.</p>
-      </a>
-      <a class="portal vibes" href="vibe.html">
-        <h2 data-i18n="home.vibes_title">Vibes</h2>
-        <p data-i18n="home.vibes_desc">Ambient music for your day.</p>
-      </a>
-    </div>
+    <a class="back-btn" href="index.html">
+      <span aria-hidden="true">←</span><span data-i18n="common.back">Return to Home</span>
+    </a>
+
+    <div class="fav-empty" id="fav-empty" hidden></div>
+    <div class="grid" id="fav-stations"></div>
   </main>
 
   <footer class="site-footer">
@@ -92,7 +84,7 @@
   <script src="js/favorites.js?v=17.0"></script>
   <script src="js/player.js?v=17.0"></script>
   <script src="js/counter.js?v=17.0"></script>
-  <script src="js/autoplay.js?v=17.0"></script>
+  <script src="hls.min.js?v=17.0"></script>
   <script>
     I18N.init();
     Player.init();

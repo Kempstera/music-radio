@@ -99,12 +99,28 @@
     play.className = "c-play";
     play.textContent = "▶";
 
+    // Favorites heart (toggled via document-level delegation in favorites.js)
+    var heart = document.createElement("button");
+    heart.type = "button";
+    heart.className = "card-heart";
+    heart.setAttribute("data-uuid", window.StationUuid ? window.StationUuid(s) : "");
+    if (window.Favorites && window.Favorites.heartSvg) {
+      heart.innerHTML = window.Favorites.heartSvg();
+    } else {
+      heart.textContent = "♥";
+    }
+
     card.appendChild(name);
     card.appendChild(meta);
     card.appendChild(play);
+    card.appendChild(heart);
 
-    card.addEventListener("click", function () { playAt(index); });
+    card.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest(".card-heart")) return;
+      playAt(index);
+    });
     card.addEventListener("keydown", function (e) {
+      if (e.target.closest && e.target.closest(".card-heart")) return;
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         playAt(index);

@@ -96,7 +96,17 @@
       "guestbook.empty": "No messages yet. Be the first to leave one!",
       "guestbook.err_load": "Could not load messages.",
       "guestbook.err_post": "Could not post your message. Please try again.",
-      "guestbook.msg_required": "Please write a message."
+      "guestbook.msg_required": "Please write a message.",
+
+      "guestbook.posted": "Thanks! Your message has been posted.",
+
+      "fav.title": "My Favorites",
+      "fav.subtitle": "Your saved stations, all in one place.",
+      "fav.signin_required": "Please sign in to save your favorite stations.",
+      "fav.limit": "You can only save up to 20 stations.",
+      "fav.added": "Added to favorites",
+      "fav.removed": "Removed from favorites",
+      "fav.empty": "No favorites yet. Tap the heart on any station to save it."
     },
 
     cy: {
@@ -189,7 +199,17 @@
       "guestbook.empty": "Dim negeseuon eto. Byddwch y cyntaf i adael un!",
       "guestbook.err_load": "Methwyd llwytho negeseuon.",
       "guestbook.err_post": "Methwyd postio eich neges. Ceisiwch eto.",
-      "guestbook.msg_required": "Ysgrifennwch neges."
+      "guestbook.msg_required": "Ysgrifennwch neges.",
+
+      "guestbook.posted": "Diolch! Mae eich neges wedi'i phostio.",
+
+      "fav.title": "Fy Ffefrynnau",
+      "fav.subtitle": "Eich gorsafoedd wedi'u cadw, i gyd yn un lle.",
+      "fav.signin_required": "Mewngofnodwch i gadw eich gorsafoedd dewisol.",
+      "fav.limit": "Dim ond hyd at 20 gorsaf y gallwch eu cadw.",
+      "fav.added": "Ychwanegwyd at y ffefrynnau",
+      "fav.removed": "Tynnwyd o'r ffefrynnau",
+      "fav.empty": "Dim ffefrynnau eto. Tapiwch y galon ar unrhyw orsaf i'w chadw."
     },
 
     de: {
@@ -282,7 +302,17 @@
       "guestbook.empty": "Noch keine Nachrichten. Seien Sie der Erste!",
       "guestbook.err_load": "Nachrichten konnten nicht geladen werden.",
       "guestbook.err_post": "Ihre Nachricht konnte nicht gepostet werden. Bitte versuchen Sie es erneut.",
-      "guestbook.msg_required": "Bitte schreiben Sie eine Nachricht."
+      "guestbook.msg_required": "Bitte schreiben Sie eine Nachricht.",
+
+      "guestbook.posted": "Danke! Ihre Nachricht wurde veröffentlicht.",
+
+      "fav.title": "Meine Favoriten",
+      "fav.subtitle": "Ihre gespeicherten Sender, alle an einem Ort.",
+      "fav.signin_required": "Melden Sie sich an, um Ihre Lieblingssender zu speichern.",
+      "fav.limit": "Sie können nur bis zu 20 Sender speichern.",
+      "fav.added": "Zu den Favoriten hinzugefügt",
+      "fav.removed": "Aus den Favoriten entfernt",
+      "fav.empty": "Noch keine Favoriten. Tippen Sie auf das Herz einer Station, um sie zu speichern."
     },
 
     fr: {
@@ -375,7 +405,17 @@
       "guestbook.empty": "Pas encore de messages. Soyez le premier !",
       "guestbook.err_load": "Impossible de charger les messages.",
       "guestbook.err_post": "Impossible de publier votre message. Veuillez réessayer.",
-      "guestbook.msg_required": "Veuillez écrire un message."
+      "guestbook.msg_required": "Veuillez écrire un message.",
+
+      "guestbook.posted": "Merci ! Votre message a été publié.",
+
+      "fav.title": "Mes favoris",
+      "fav.subtitle": "Vos stations enregistrées, toutes au même endroit.",
+      "fav.signin_required": "Connectez-vous pour enregistrer vos stations préférées.",
+      "fav.limit": "Vous ne pouvez enregistrer que 20 stations au maximum.",
+      "fav.added": "Ajouté aux favoris",
+      "fav.removed": "Retiré des favoris",
+      "fav.empty": "Pas encore de favoris. Touchez le cœur d'une station pour l'enregistrer."
     },
 
     it: {
@@ -468,7 +508,17 @@
       "guestbook.empty": "Nessun messaggio. Sii il primo!",
       "guestbook.err_load": "Impossibile caricare i messaggi.",
       "guestbook.err_post": "Impossibile pubblicare il tuo messaggio. Riprova.",
-      "guestbook.msg_required": "Scrivi un messaggio."
+      "guestbook.msg_required": "Scrivi un messaggio.",
+
+      "guestbook.posted": "Grazie! Il tuo messaggio è stato pubblicato.",
+
+      "fav.title": "I miei preferiti",
+      "fav.subtitle": "Le tue stazioni salvate, tutte in un unico posto.",
+      "fav.signin_required": "Accedi per salvare le tue stazioni preferite.",
+      "fav.limit": "Puoi salvare al massimo 20 stazioni.",
+      "fav.added": "Aggiunto ai preferiti",
+      "fav.removed": "Rimosso dai preferiti",
+      "fav.empty": "Nessun preferito ancora. Tocca il cuore su una stazione per salvarla."
     },
 
     es: {
@@ -561,7 +611,17 @@
       "guestbook.empty": "Aún no hay mensajes. ¡Sé el primero!",
       "guestbook.err_load": "No se pudieron cargar los mensajes.",
       "guestbook.err_post": "No se pudo publicar tu mensaje. Inténtalo de nuevo.",
-      "guestbook.msg_required": "Escribe un mensaje."
+      "guestbook.msg_required": "Escribe un mensaje.",
+
+      "guestbook.posted": "¡Gracias! Tu mensaje ha sido publicado.",
+
+      "fav.title": "Mis favoritos",
+      "fav.subtitle": "Tus emisoras guardadas, todas en un solo lugar.",
+      "fav.signin_required": "Inicia sesión para guardar tus emisoras favoritas.",
+      "fav.limit": "Solo puedes guardar hasta 20 emisoras.",
+      "fav.added": "Añadido a favoritos",
+      "fav.removed": "Eliminado de favoritos",
+      "fav.empty": "Aún no hay favoritos. Toca el corazón de una emisora para guardarla."
     }
   };
 

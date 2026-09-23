@@ -32,7 +32,7 @@
   var busy = false;
   var errorKey = null;
 
-  var overlay, nameInput, msgInput, feedEl, errEl, submitBtn, titleEl, subEl,
+  var overlay, nameInput, msgInput, feedEl, errEl, noteEl, hpInput, submitBtn, titleEl, subEl,
       nameLabel, msgLabel, closeBtn;
 
   function t(key, vars) {
@@ -79,7 +79,9 @@
             '<input class="auth-input" id="gb-name" type="text" autocomplete="name" />' +
             '<label class="auth-label" id="gb-msg-label" for="gb-msg"></label>' +
             '<textarea class="auth-input gb-textarea" id="gb-msg" rows="3"></textarea>' +
+            '<input class="hp-field" id="gb-hp" name="website_url" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />' +
             '<p class="auth-error" id="gb-error" role="alert"></p>' +
+            '<p class="auth-note" id="gb-note" role="status"></p>' +
             '<button class="auth-submit" id="gb-submit" type="submit"></button>' +
           '</form>' +
           '<div class="gb-feed" id="gb-feed" aria-live="polite"></div>' +
@@ -91,6 +93,8 @@
     msgInput = overlay.querySelector("#gb-msg");
     feedEl = overlay.querySelector("#gb-feed");
     errEl = overlay.querySelector("#gb-error");
+    noteEl = overlay.querySelector("#gb-note");
+    hpInput = overlay.querySelector("#gb-hp");
     submitBtn = overlay.querySelector("#gb-submit");
     titleEl = overlay.querySelector("#gb-title");
     subEl = overlay.querySelector("#gb-sub");
@@ -114,6 +118,8 @@
   function showModal() {
     overlay.hidden = false;
     document.body.style.overflow = "hidden";
+    setError(null);
+    setNote(null);
     refreshSession().then(function () {
       if (currentUser) {
         nameInput.value = emailPrefix();
@@ -152,6 +158,12 @@
   function setError(keyOrNull) {
     errorKey = keyOrNull;
     renderError();
+  }
+
+  function setNote(msg) {
+    if (!msg) { noteEl.hidden = true; noteEl.textContent = ""; return; }
+    noteEl.textContent = msg;
+    noteEl.hidden = false;
   }
 
   // ---------- feed ----------
@@ -231,6 +243,19 @@
     e.preventDefault();
     if (!supabase) { setError("guestbook.err_load"); return; }
     if (busy) return;
+
+    // Honeypot: bots fill hidden fields; humans never see them.
+    if (hpInput && hpInput.value.trim()) {
+      // Pretend it worked — clear the form, show the success message,
+      // but never send anything to Supabase.
+      msgInput.value = "";
+      if (!currentUser) nameInput.value = "";
+      hpInput.value = "";
+      setError(null);
+      setNote(t("guestbook.posted"));
+      return;
+    }
+
     var content = msgInput.value.trim();
     if (!content) { setError("guestbook.msg_required"); return; }
 
@@ -240,6 +265,7 @@
     busy = true;
     submitBtn.disabled = true;
     setError(null);
+    setNote(null);
     try {
       var res = await supabase
         .from("guestbook")
@@ -257,6 +283,7 @@
       }
       msgInput.value = "";
       if (!currentUser) nameInput.value = "";
+      setNote(t("guestbook.posted"));
     } catch (e) {
       setError("guestbook.err_post");
     } finally {
