@@ -711,4 +711,119 @@ body[data-page="vibes"] .wrap { max-width: 1280px; }
 
 @media (prefers-reduced-motion: reduce) {
   .auth-modal { animation: none; }
+  .guestbook-modal { animation: none; }
+}
+
+/* ---------- Guestbook (Supabase) ---------- */
+.nav-guestbook {
+  margin-left: 10px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+.nav-guestbook:hover { background: rgba(0, 0, 0, 0.1); }
+.nav-guestbook:active { transform: scale(0.96); }
+
+.guestbook-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.guestbook-overlay[hidden] { display: none; }
+
+.guestbook-modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: min(80vh, 720px);
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 28px 26px 22px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.16);
+  animation: authFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.guestbook-head { padding-right: 34px; }
+.guestbook-title { margin: 0 0 4px; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; }
+.guestbook-sub { margin: 0; font-size: 0.88rem; color: var(--text-2); }
+
+.guestbook-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: 16px;
+}
+
+.gb-textarea { resize: vertical; min-height: 84px; }
+
+.gb-feed {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  scrollbar-width: thin;
+}
+.gb-empty { text-align: center; color: var(--text-3); font-size: 0.85rem; padding: 14px 0; }
+.gb-item {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  margin-bottom: 10px;
+}
+.gb-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 3px;
+}
+.gb-item-name { font-weight: 600; font-size: 0.85rem; color: var(--text); }
+.gb-item-time { font-size: 0.7rem; color: var(--text-3); white-space: nowrap; }
+.gb-item-text { margin: 0; font-size: 0.9rem; color: var(--text-2); line-height: 1.45; word-break: break-word; }
+
+/* ---------- Mobile header (≤768px): wrap into two rows, keep every control visible ---------- */
+@media (max-width: 768px) {
+  .site-nav {
+    position: static;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px 12px;
+    row-gap: 6px;
+  }
+  .nav-brand { font-size: 0.92rem; }
+  .nav-links {
+    order: 5;
+    width: 100%;
+    margin-left: 0;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  .nav-links a { padding: 6px 11px; font-size: 0.8rem; }
+  .lang-wrap { order: 2; margin-left: auto; }
+  .lang-wrap select { padding: 5px 10px; font-size: 0.75rem; }
+  .auth-area { order: 3; margin-left: 8px; }
+  .nav-guestbook { order: 4; margin-left: 8px; padding: 6px 11px; font-size: 0.78rem; }
+  .auth-chip { max-width: 90px; }
+  .auth-signout { padding: 5px 10px; font-size: 0.75rem; }
+  .auth-signin { padding: 5px 11px; font-size: 0.78rem; }
+  .category-nav { top: 0; }
 }

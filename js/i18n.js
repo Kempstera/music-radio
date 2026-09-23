@@ -84,7 +84,19 @@
       "auth.close": "Close",
       "auth.err_invalid_email": "Please enter a valid email address.",
       "auth.err_short_password": "Password must be at least 6 characters.",
-      "auth.err_unavailable": "Authentication is unavailable. Please reload the page."
+      "auth.err_unavailable": "Authentication is unavailable. Please reload the page.",
+
+      "guestbook.title": "Guestbook",
+      "guestbook.leave_msg": "Leave a message...",
+      "guestbook.name": "Name (Optional)",
+      "guestbook.message": "Message",
+      "guestbook.submit": "Submit",
+      "guestbook.guest": "Guest",
+      "guestbook.loading": "Loading messages…",
+      "guestbook.empty": "No messages yet. Be the first to leave one!",
+      "guestbook.err_load": "Could not load messages.",
+      "guestbook.err_post": "Could not post your message. Please try again.",
+      "guestbook.msg_required": "Please write a message."
     },
 
     cy: {
@@ -165,7 +177,19 @@
       "auth.close": "Cau",
       "auth.err_invalid_email": "Rhowch gyfeiriad e-bost dilys.",
       "auth.err_short_password": "Rhaid i'r cyfrinair fod yn 6 chymeriad o leiaf.",
-      "auth.err_unavailable": "Nid yw dilysu ar gael. Ail-lwythwch y dudalen."
+      "auth.err_unavailable": "Nid yw dilysu ar gael. Ail-lwythwch y dudalen.",
+
+      "guestbook.title": "Llyfr Ymwelwyr",
+      "guestbook.leave_msg": "Gadewch neges...",
+      "guestbook.name": "Enw (Dewisol)",
+      "guestbook.message": "Neges",
+      "guestbook.submit": "Cyflwyno",
+      "guestbook.guest": "Gwestai",
+      "guestbook.loading": "Wrthi'n llwytho negeseuon…",
+      "guestbook.empty": "Dim negeseuon eto. Byddwch y cyntaf i adael un!",
+      "guestbook.err_load": "Methwyd llwytho negeseuon.",
+      "guestbook.err_post": "Methwyd postio eich neges. Ceisiwch eto.",
+      "guestbook.msg_required": "Ysgrifennwch neges."
     },
 
     de: {
@@ -246,7 +270,19 @@
       "auth.close": "Schließen",
       "auth.err_invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
       "auth.err_short_password": "Das Passwort muss mindestens 6 Zeichen lang sein.",
-      "auth.err_unavailable": "Authentifizierung nicht verfügbar. Bitte laden Sie die Seite neu."
+      "auth.err_unavailable": "Authentifizierung nicht verfügbar. Bitte laden Sie die Seite neu.",
+
+      "guestbook.title": "Gästebuch",
+      "guestbook.leave_msg": "Hinterlassen Sie eine Nachricht...",
+      "guestbook.name": "Name (optional)",
+      "guestbook.message": "Nachricht",
+      "guestbook.submit": "Absenden",
+      "guestbook.guest": "Gast",
+      "guestbook.loading": "Nachrichten werden geladen…",
+      "guestbook.empty": "Noch keine Nachrichten. Seien Sie der Erste!",
+      "guestbook.err_load": "Nachrichten konnten nicht geladen werden.",
+      "guestbook.err_post": "Ihre Nachricht konnte nicht gepostet werden. Bitte versuchen Sie es erneut.",
+      "guestbook.msg_required": "Bitte schreiben Sie eine Nachricht."
     },
 
     fr: {
@@ -327,7 +363,19 @@
       "auth.close": "Fermer",
       "auth.err_invalid_email": "Veuillez saisir une adresse e-mail valide.",
       "auth.err_short_password": "Le mot de passe doit contenir au moins 6 caractères.",
-      "auth.err_unavailable": "Authentification indisponible. Veuillez recharger la page."
+      "auth.err_unavailable": "Authentification indisponible. Veuillez recharger la page.",
+
+      "guestbook.title": "Livre d'or",
+      "guestbook.leave_msg": "Laissez un message...",
+      "guestbook.name": "Nom (facultatif)",
+      "guestbook.message": "Message",
+      "guestbook.submit": "Envoyer",
+      "guestbook.guest": "Invité",
+      "guestbook.loading": "Chargement des messages…",
+      "guestbook.empty": "Pas encore de messages. Soyez le premier !",
+      "guestbook.err_load": "Impossible de charger les messages.",
+      "guestbook.err_post": "Impossible de publier votre message. Veuillez réessayer.",
+      "guestbook.msg_required": "Veuillez écrire un message."
     },
 
     it: {
@@ -408,7 +456,19 @@
       "auth.close": "Chiudi",
       "auth.err_invalid_email": "Inserisci un indirizzo email valido.",
       "auth.err_short_password": "La password deve contenere almeno 6 caratteri.",
-      "auth.err_unavailable": "Autenticazione non disponibile. Ricarica la pagina."
+      "auth.err_unavailable": "Autenticazione non disponibile. Ricarica la pagina.",
+
+      "guestbook.title": "Libro ospiti",
+      "guestbook.leave_msg": "Lascia un messaggio...",
+      "guestbook.name": "Nome (facoltativo)",
+      "guestbook.message": "Messaggio",
+      "guestbook.submit": "Invia",
+      "guestbook.guest": "Ospite",
+      "guestbook.loading": "Caricamento messaggi…",
+      "guestbook.empty": "Nessun messaggio. Sii il primo!",
+      "guestbook.err_load": "Impossibile caricare i messaggi.",
+      "guestbook.err_post": "Impossibile pubblicare il tuo messaggio. Riprova.",
+      "guestbook.msg_required": "Scrivi un messaggio."
     },
 
     es: {
@@ -489,7 +549,19 @@
       "auth.close": "Cerrar",
       "auth.err_invalid_email": "Introduce un correo electrónico válido.",
       "auth.err_short_password": "La contraseña debe tener al menos 6 caracteres.",
-      "auth.err_unavailable": "Autenticación no disponible. Recarga la página."
+      "auth.err_unavailable": "Autenticación no disponible. Recarga la página.",
+
+      "guestbook.title": "Libro de visitas",
+      "guestbook.leave_msg": "Deja un mensaje...",
+      "guestbook.name": "Nombre (opcional)",
+      "guestbook.message": "Mensaje",
+      "guestbook.submit": "Enviar",
+      "guestbook.guest": "Invitado",
+      "guestbook.loading": "Cargando mensajes…",
+      "guestbook.empty": "Aún no hay mensajes. ¡Sé el primero!",
+      "guestbook.err_load": "No se pudieron cargar los mensajes.",
+      "guestbook.err_post": "No se pudo publicar tu mensaje. Inténtalo de nuevo.",
+      "guestbook.msg_required": "Escribe un mensaje."
     }
   };
 
