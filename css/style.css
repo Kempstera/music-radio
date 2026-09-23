@@ -513,3 +513,181 @@ body[data-page="vibes"] .wrap { max-width: 1280px; }
   .grid { grid-template-columns: 1fr; }
   .hero { padding: 24px 16px 28px; }
 }
+
+/* ---------- Auth (Supabase) ---------- */
+.auth-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+}
+
+.auth-signin,
+.auth-signout,
+.auth-chip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease, background 0.18s ease, color 0.18s ease,
+    opacity 0.15s ease;
+}
+.auth-signin:active,
+.auth-signout:active { transform: scale(0.96); }
+
+.auth-signin {
+  background: var(--accent);
+  color: #fff;
+}
+.auth-signin:hover { opacity: 0.9; }
+
+.auth-signout {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-2);
+}
+.auth-signout:hover { background: rgba(0, 0, 0, 0.05); color: var(--text); }
+
+.auth-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+  font-weight: 500;
+  cursor: default;
+}
+
+/* modal overlay */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.auth-overlay[hidden] { display: none; }
+
+.auth-modal {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 32px 28px 26px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.16);
+  animation: authFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes authFade {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.auth-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-2);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.auth-close:hover { background: rgba(0, 0, 0, 0.1); }
+
+.auth-title { margin: 0 0 6px; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; }
+.auth-sub { margin: 0 0 22px; font-size: 0.88rem; color: var(--text-2); }
+
+.auth-label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.auth-input {
+  width: 100%;
+  padding: 11px 14px;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.92rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.auth-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+  background: var(--card);
+}
+
+.auth-error,
+.auth-note {
+  margin: 0 0 14px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+.auth-error { background: rgba(215, 0, 21, 0.08); color: #c7000f; }
+.auth-note { background: rgba(0, 113, 227, 0.08); color: var(--accent); }
+.auth-error[hidden], .auth-note[hidden] { display: none; }
+
+.auth-submit {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.auth-submit:hover { opacity: 0.9; }
+.auth-submit:active { transform: scale(0.98); }
+.auth-submit:disabled { opacity: 0.55; cursor: default; }
+
+.auth-switch { margin: 18px 0 0; text-align: center; }
+.auth-switch button {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.auth-switch button:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .auth-chip { max-width: 96px; }
+  .auth-signout { padding: 6px 10px; font-size: 0.78rem; }
+  .auth-signin { padding: 6px 12px; font-size: 0.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-modal { animation: none; }
+}
