@@ -237,37 +237,18 @@ body[data-page="vibes"] .wrap { max-width: 1280px; }
   transition: fill 0.15s ease;
 }
 .card-heart:hover { transform: scale(1.12); background: rgba(255, 59, 48, 0.10); color: #FF3B30; }
-.card-heart.active { color: #FF3B30; background: rgba(255, 59, 48, 0.10); }
-.card-heart.active svg path { fill: #FF3B30; stroke: #FF3B30; }
-.card-heart.pop { animation: heartPop 0.3s ease; }
-.card .c-meta { padding-right: 36px; }
-
-/* Favorites heart (bottom-right of each station card) */
-.card-heart {
-  position: absolute;
-  bottom: 14px;
-  right: 14px;
-  width: 30px;
-  height: 30px;
+/* Favorited state: STRICTLY solid red regardless of hover state or device */
+.card-heart.favorited,
+.card-heart.favorited:hover {
+  color: #FF3B30 !important;
+  background: rgba(255, 59, 48, 0.10);
   border: none;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--text-3);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
-.card-heart svg path {
-  fill: transparent;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  transition: fill 0.15s ease;
+.card-heart.favorited svg path,
+.card-heart.favorited:hover svg path {
+  fill: #FF3B30 !important;
+  stroke: #FF3B30 !important;
 }
-.card-heart:hover { transform: scale(1.12); background: rgba(255, 59, 48, 0.10); color: #FF3B30; }
-.card-heart.active { color: #FF3B30; background: rgba(255, 59, 48, 0.10); }
-.card-heart.active svg path { fill: #FF3B30; stroke: #FF3B30; }
 .card-heart.pop { animation: heartPop 0.3s ease; }
 .card .c-meta { padding-right: 36px; }
 

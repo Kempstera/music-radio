@@ -80,7 +80,15 @@
   function applyHeartState(btn) {
     var uuid = btn.getAttribute("data-uuid");
     var on = !!(uuid && favSet[uuid]);
-    btn.classList.toggle("active", on);
+    btn.classList.toggle("favorited", on);
+    // Inline styles as a bulletproof fallback (some Android/WeChat browsers
+    // ignore CSS class rules on SVG paths).
+    btn.style.color = on ? "#FF3B30" : "";
+    var path = btn.querySelector("svg path");
+    if (path) {
+      path.style.fill = on ? "#FF3B30" : "";
+      path.style.stroke = on ? "#FF3B30" : "";
+    }
     btn.setAttribute("aria-pressed", on ? "true" : "false");
     btn.setAttribute("aria-label", t("fav.title"));
   }
@@ -122,6 +130,7 @@
     applyHeartState(btn);
     popHeart(btn);
     showToast(adding ? t("fav.added") : t("fav.removed"));
+    notifyChange();
     if (isFavPage()) renderFavPage();
 
     btn.setAttribute("data-pending", "1");
@@ -157,6 +166,7 @@
       favOrder.unshift(uuid);
     }
     syncHearts();
+    notifyChange();
     if (isFavPage()) renderFavPage();
   }
 
@@ -164,6 +174,17 @@
 
   function isFavPage() {
     return document.body.getAttribute("data-page") === "favorites";
+  }
+
+  // Cached stations.json fetch (shared by sidebar tab + favorites page).
+  var stationsCache = null;
+  function loadStations() {
+    if (!stationsCache) {
+      stationsCache = fetch("stations.json")
+        .then(function (r) { return r.json(); })
+        .catch(function () { return null; });
+    }
+    return stationsCache;
   }
 
   function flattenStations(data) {
@@ -175,6 +196,21 @@
       });
     });
     return out;
+  }
+
+  // Resolve the user's favorite uuids to full station objects, in favOrder.
+  function getFavStations(cb) {
+    var uuids = favOrder.slice();
+    if (!uuids.length) { cb([]); return; }
+    loadStations().then(function (data) {
+      if (!data) { cb([]); return; }
+      var flat = flattenStations(data);
+      var byUuid = {};
+      flat.forEach(function (s) { byUuid[stationUuid(s)] = s; });
+      var list = [];
+      uuids.forEach(function (u) { if (byUuid[u]) list.push(byUuid[u]); });
+      cb(list);
+    });
   }
 
   function metaText(s) {
@@ -204,7 +240,7 @@
 
     var heart = document.createElement("button");
     heart.type = "button";
-    heart.className = "card-heart active";
+    heart.className = "card-heart favorited";
     heart.setAttribute("data-uuid", stationUuid(s));
     heart.innerHTML = HEART_SVG;
     applyHeartState(heart);
@@ -237,34 +273,15 @@
       if (emptyEl) { emptyEl.textContent = t("fav.signin_required"); emptyEl.hidden = false; }
       return;
     }
-    var uuids = favOrder.slice();
-    if (!uuids.length) {
+    getFavStations(function (list) {
+      favRenderList = list;
       host.innerHTML = "";
-      favRenderList = [];
-      if (emptyEl) { emptyEl.textContent = t("fav.empty"); emptyEl.hidden = false; }
-      return;
-    }
-    fetch("stations.json")
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var flat = flattenStations(data);
-        var byUuid = {};
-        flat.forEach(function (s) { byUuid[stationUuid(s)] = s; });
-        var list = [];
-        uuids.forEach(function (u) {
-          if (byUuid[u]) list.push(byUuid[u]);
-        });
-        favRenderList = list;
-        host.innerHTML = "";
-        list.forEach(function (s, i) { host.appendChild(makeFavCard(s, i)); });
-        if (emptyEl) {
-          emptyEl.hidden = list.length > 0;
-          if (!list.length) emptyEl.textContent = t("fav.empty");
-        }
-      })
-      .catch(function () {
-        if (emptyEl) { emptyEl.textContent = t("fav.empty"); emptyEl.hidden = false; }
-      });
+      list.forEach(function (s, i) { host.appendChild(makeFavCard(s, i)); });
+      if (emptyEl) {
+        emptyEl.hidden = list.length > 0;
+        if (!list.length) emptyEl.textContent = t("fav.empty");
+      }
+    });
   }
 
   // ---------- header link ----------
@@ -302,6 +319,7 @@
         });
         syncHearts();
         updateLink();
+        notifyChange();
         if (isFavPage()) renderFavPage();
       });
   }
@@ -346,12 +364,22 @@
     });
   }
 
+  var changeCbs = [];
+  function notifyChange() {
+    changeCbs.forEach(function (cb) { try { cb(); } catch (e) { /* noop */ } });
+  }
+
   window.Favorites = {
     init: init,
     stationUuid: stationUuid,
     syncHearts: syncHearts,
     heartSvg: function () { return HEART_SVG; },
-    isFav: function (uuid) { return !!favSet[uuid]; }
+    isFav: function (uuid) { return !!favSet[uuid]; },
+    isSignedIn: function () { return !!user; },
+    count: function () { return favOrder.length; },
+    getFavStations: getFavStations,
+    toast: showToast,
+    onChange: function (cb) { changeCbs.push(cb); }
   };
 
   init();

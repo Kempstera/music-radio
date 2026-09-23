@@ -20,6 +20,7 @@
 
   var KEY_TOP = "__top__";
   var KEY_ALL = "__all__";
+  var KEY_FAV = "__favorites__";
 
   var CLASSICAL_ORDER = [
     "UK", "USA", "Germany", "France", "Italy", "Spain", "Nordic",
@@ -193,12 +194,44 @@
     el.classList.add("station-fade");
   }
 
+  function renderFavoritesTab(wrap) {
+    var F = window.Favorites;
+    if (!F) return;
+    if (!F.isSignedIn()) {
+      if (F.toast) F.toast(t("fav.signin_view"));
+      var empty = document.createElement("p");
+      empty.className = "fav-empty";
+      empty.textContent = t("fav.signin_view");
+      wrap.appendChild(empty);
+      return;
+    }
+    // Render ONLY the favorited stations (in the user's saved order).
+    F.getFavStations(function (list) {
+      if (!list.length) {
+        var p = document.createElement("p");
+        p.className = "fav-empty";
+        p.textContent = t("fav.empty");
+        wrap.appendChild(p);
+        return;
+      }
+      renderSection(wrap, t("fav.title"), list);
+      fadeIn(wrap);
+    });
+  }
+
   /* ---------- Tab definitions ---------- */
 
   function buildTabs() {
     var buckets = data[CATEGORY] || {};
     var groups = orderedGroups();
     var list = [];
+
+    // "My Favorites" is ALWAYS the very first item in the category nav.
+    list.push({
+      key: KEY_FAV,
+      label: t("fav.title"),
+      render: renderFavoritesTab
+    });
 
     if (CATEGORY === "classical") {
       // Curated showcase first, then one tab per region.
@@ -326,6 +359,10 @@
 
   function countFor(key) {
     var buckets = data[CATEGORY] || {};
+    if (key === KEY_FAV) {
+      var F = window.Favorites;
+      return F ? (F.isSignedIn() ? F.count() : 0) : 0;
+    }
     if (key === KEY_ALL) {
       return Object.keys(buckets).reduce(function (n, g) {
         return n + (buckets[g] || []).length;
@@ -370,6 +407,17 @@
       window.Player.onAutoSkip(function (index) {
         markActive(index);
         scrollToIndex(index);
+      });
+    }
+
+    // Live-update the favorites pill count + re-render the favorites tab when
+    // the user hearts/un-hearts while it is open.
+    if (window.Favorites && window.Favorites.onChange) {
+      window.Favorites.onChange(function () {
+        if (!data || !navEl) return;
+        var pill = navEl.querySelector('[data-tab="' + KEY_FAV + '"] .cat-count');
+        if (pill) pill.textContent = countFor(KEY_FAV);
+        if (activeTab === KEY_FAV) renderTab(KEY_FAV);
       });
     }
   }

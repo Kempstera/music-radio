@@ -106,7 +106,8 @@
       "fav.limit": "You can only save up to 20 stations.",
       "fav.added": "Added to favorites",
       "fav.removed": "Removed from favorites",
-      "fav.empty": "No favorites yet. Tap the heart on any station to save it."
+      "fav.empty": "No favorites yet. Tap the heart on any station to save it.",
+      "fav.signin_view": "Please sign in to view your favorite stations."
     },
 
     cy: {
@@ -209,7 +210,8 @@
       "fav.limit": "Dim ond hyd at 20 gorsaf y gallwch eu cadw.",
       "fav.added": "Ychwanegwyd at y ffefrynnau",
       "fav.removed": "Tynnwyd o'r ffefrynnau",
-      "fav.empty": "Dim ffefrynnau eto. Tapiwch y galon ar unrhyw orsaf i'w chadw."
+      "fav.empty": "Dim ffefrynnau eto. Tapiwch y galon ar unrhyw orsaf i'w chadw.",
+      "fav.signin_view": "Mewngofnodwch i weld eich gorsafoedd dewisol."
     },
 
     de: {
@@ -312,7 +314,8 @@
       "fav.limit": "Sie können nur bis zu 20 Sender speichern.",
       "fav.added": "Zu den Favoriten hinzugefügt",
       "fav.removed": "Aus den Favoriten entfernt",
-      "fav.empty": "Noch keine Favoriten. Tippen Sie auf das Herz einer Station, um sie zu speichern."
+      "fav.empty": "Noch keine Favoriten. Tippen Sie auf das Herz einer Station, um sie zu speichern.",
+      "fav.signin_view": "Melden Sie sich an, um Ihre Lieblingssender anzusehen."
     },
 
     fr: {
@@ -415,7 +418,8 @@
       "fav.limit": "Vous ne pouvez enregistrer que 20 stations au maximum.",
       "fav.added": "Ajouté aux favoris",
       "fav.removed": "Retiré des favoris",
-      "fav.empty": "Pas encore de favoris. Touchez le cœur d'une station pour l'enregistrer."
+      "fav.empty": "Pas encore de favoris. Touchez le cœur d'une station pour l'enregistrer.",
+      "fav.signin_view": "Connectez-vous pour voir vos stations préférées."
     },
 
     it: {
@@ -518,7 +522,8 @@
       "fav.limit": "Puoi salvare al massimo 20 stazioni.",
       "fav.added": "Aggiunto ai preferiti",
       "fav.removed": "Rimosso dai preferiti",
-      "fav.empty": "Nessun preferito ancora. Tocca il cuore su una stazione per salvarla."
+      "fav.empty": "Nessun preferito ancora. Tocca il cuore su una stazione per salvarla.",
+      "fav.signin_view": "Accedi per vedere le tue stazioni preferite."
     },
 
     es: {
@@ -621,7 +626,8 @@
       "fav.limit": "Solo puedes guardar hasta 20 emisoras.",
       "fav.added": "Añadido a favoritos",
       "fav.removed": "Eliminado de favoritos",
-      "fav.empty": "Aún no hay favoritos. Toca el corazón de una emisora para guardarla."
+      "fav.empty": "Aún no hay favoritos. Toca el corazón de una emisora para guardarla.",
+      "fav.signin_view": "Inicia sesión para ver tus emisoras favoritas."
     }
   };
 
