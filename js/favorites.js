@@ -91,35 +91,70 @@
 
   // ---------- toggle ----------
 
-  async function toggleFavorite(btn) {
+  function popHeart(btn) {
+    btn.classList.remove("pop");
+    void btn.offsetWidth; // restart the animation
+    btn.classList.add("pop");
+  }
+
+  function toggleFavorite(btn) {
     var uuid = btn.getAttribute("data-uuid");
     if (!uuid || !supabase) return;
+    if (btn.getAttribute("data-pending") === "1") return; // ignore double-taps in flight
     if (!user) {
       showToast(t("fav.signin_required"));
       return;
     }
-    if (favSet[uuid]) {
-      var r1 = await supabase
+    var adding = !favSet[uuid];
+    if (adding && Object.keys(favSet).length >= MAX_FAVS) {
+      showToast(t("fav.limit"));
+      return;
+    }
+
+    // Optimistic UI: flip the heart, pop, toast — all instantly. Persist after.
+    if (adding) {
+      favSet[uuid] = true;
+      favOrder.unshift(uuid);
+    } else {
+      delete favSet[uuid];
+      favOrder = favOrder.filter(function (u) { return u !== uuid; });
+    }
+    applyHeartState(btn);
+    popHeart(btn);
+    showToast(adding ? t("fav.added") : t("fav.removed"));
+    if (isFavPage()) renderFavPage();
+
+    btn.setAttribute("data-pending", "1");
+    var done = function () { btn.removeAttribute("data-pending"); };
+
+    if (adding) {
+      supabase
+        .from("user_favorites")
+        .insert([{ user_id: user.id, station_uuid: uuid }])
+        .then(function (r) {
+          done();
+          if (r.error) { console.warn("[Favorites] insert failed", r.error); revertToggle(uuid, true); }
+        });
+    } else {
+      supabase
         .from("user_favorites")
         .delete()
         .eq("user_id", user.id)
-        .eq("station_uuid", uuid);
-      if (r1.error) { console.warn("[Favorites] delete failed", r1.error); return; }
+        .eq("station_uuid", uuid)
+        .then(function (r) {
+          done();
+          if (r.error) { console.warn("[Favorites] delete failed", r.error); revertToggle(uuid, false); }
+        });
+    }
+  }
+
+  function revertToggle(uuid, wasAdding) {
+    if (wasAdding) {
       delete favSet[uuid];
       favOrder = favOrder.filter(function (u) { return u !== uuid; });
-      showToast(t("fav.removed"));
     } else {
-      if (Object.keys(favSet).length >= MAX_FAVS) {
-        showToast(t("fav.limit"));
-        return;
-      }
-      var r2 = await supabase
-        .from("user_favorites")
-        .insert([{ user_id: user.id, station_uuid: uuid }]);
-      if (r2.error) { console.warn("[Favorites] insert failed", r2.error); return; }
       favSet[uuid] = true;
       favOrder.unshift(uuid);
-      showToast(t("fav.added"));
     }
     syncHearts();
     if (isFavPage()) renderFavPage();
@@ -167,10 +202,6 @@
     meta.className = "c-meta";
     meta.textContent = metaText(s);
 
-    var play = document.createElement("div");
-    play.className = "c-play";
-    play.textContent = "▶";
-
     var heart = document.createElement("button");
     heart.type = "button";
     heart.className = "card-heart active";
@@ -180,7 +211,6 @@
 
     card.appendChild(name);
     card.appendChild(meta);
-    card.appendChild(play);
     card.appendChild(heart);
 
     card.addEventListener("click", function (e) {

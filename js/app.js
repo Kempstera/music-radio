@@ -95,10 +95,6 @@
     meta.className = "c-meta";
     meta.textContent = metaText(s);
 
-    var play = document.createElement("div");
-    play.className = "c-play";
-    play.textContent = "▶";
-
     // Favorites heart (toggled via document-level delegation in favorites.js)
     var heart = document.createElement("button");
     heart.type = "button";
@@ -112,7 +108,6 @@
 
     card.appendChild(name);
     card.appendChild(meta);
-    card.appendChild(play);
     card.appendChild(heart);
 
     card.addEventListener("click", function (e) {
