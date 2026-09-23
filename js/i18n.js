@@ -59,7 +59,32 @@
       "common.no_stations": "No stations available",
       "common.buffering": "Buffering…",
       "common.all": "All",
-      "common.top_selected": "Top 20 Selected"
+      "common.top_selected": "Top 20 Selected",
+
+      "auth.sign_in": "Sign In",
+      "auth.sign_up": "Sign Up",
+      "auth.create_account": "Create Account",
+      "auth.sign_out": "Sign Out",
+      "auth.email": "Email",
+      "auth.password": "Password",
+      "auth.my_profile": "My Profile",
+      "auth.welcome_back": "Welcome back",
+      "auth.signin_sub": "Sign in to continue listening.",
+      "auth.signup_title": "Create your account",
+      "auth.signup_sub": "One account for Classical, Jazz and Vibes.",
+      "auth.email_placeholder": "you@example.com",
+      "auth.password_placeholder": "At least 6 characters",
+      "auth.new_here": "New here? Create Account",
+      "auth.have_account": "Already have an account? Sign In",
+      "auth.signing_in": "Signing in…",
+      "auth.creating": "Creating account…",
+      "auth.check_inbox": "Check your inbox",
+      "auth.signup_success": "Registration successful! Please check your inbox and click the confirmation link to activate your account.",
+      "auth.back_to_signin": "Back to Sign In",
+      "auth.close": "Close",
+      "auth.err_invalid_email": "Please enter a valid email address.",
+      "auth.err_short_password": "Password must be at least 6 characters.",
+      "auth.err_unavailable": "Authentication is unavailable. Please reload the page."
     },
 
     cy: {
@@ -115,7 +140,32 @@
       "common.no_stations": "Dim gorsafoedd ar gael",
       "common.buffering": "Yn byffro…",
       "common.all": "Popeth",
-      "common.top_selected": "Detholiad 20 Uchaf"
+      "common.top_selected": "Detholiad 20 Uchaf",
+
+      "auth.sign_in": "Mewngofnodi",
+      "auth.sign_up": "Creu Cyfrif",
+      "auth.create_account": "Creu Cyfrif",
+      "auth.sign_out": "Allgofnodi",
+      "auth.email": "E-bost",
+      "auth.password": "Cyfrinair",
+      "auth.my_profile": "Fy Mhroffil",
+      "auth.welcome_back": "Croeso'n ôl",
+      "auth.signin_sub": "Mewngofnodwch i barhau i wrando.",
+      "auth.signup_title": "Creu eich cyfrif",
+      "auth.signup_sub": "Un cyfrif ar gyfer Clasurol, Jazz ac Awyrgylch.",
+      "auth.email_placeholder": "chi@enghraifft.com",
+      "auth.password_placeholder": "O leiaf 6 chymeriad",
+      "auth.new_here": "Yn newydd yma? Creu Cyfrif",
+      "auth.have_account": "Cyfrif gennych eisoes? Mewngofnodi",
+      "auth.signing_in": "Mewngofnodi…",
+      "auth.creating": "Creu cyfrif…",
+      "auth.check_inbox": "Gwiriwch eich mewnflwch",
+      "auth.signup_success": "Cofrestru'n llwyddiannus! Gwiriwch eich mewnflwch a chliciwch ar y ddolen gadarnhau i weithredu'ch cyfrif.",
+      "auth.back_to_signin": "Yn ôl i Mewngofnodi",
+      "auth.close": "Cau",
+      "auth.err_invalid_email": "Rhowch gyfeiriad e-bost dilys.",
+      "auth.err_short_password": "Rhaid i'r cyfrinair fod yn 6 chymeriad o leiaf.",
+      "auth.err_unavailable": "Nid yw dilysu ar gael. Ail-lwythwch y dudalen."
     },
 
     de: {
@@ -171,7 +221,32 @@
       "common.no_stations": "Keine Sender verfügbar",
       "common.buffering": "Puffert…",
       "common.all": "Alle",
-      "common.top_selected": "Top 20 Auswahl"
+      "common.top_selected": "Top 20 Auswahl",
+
+      "auth.sign_in": "Anmelden",
+      "auth.sign_up": "Registrieren",
+      "auth.create_account": "Konto erstellen",
+      "auth.sign_out": "Abmelden",
+      "auth.email": "E-Mail",
+      "auth.password": "Passwort",
+      "auth.my_profile": "Mein Profil",
+      "auth.welcome_back": "Willkommen zurück",
+      "auth.signin_sub": "Melden Sie sich an, um weiterzuhören.",
+      "auth.signup_title": "Konto erstellen",
+      "auth.signup_sub": "Ein Konto für Klassik, Jazz und Vibes.",
+      "auth.email_placeholder": "sie@beispiel.de",
+      "auth.password_placeholder": "Mindestens 6 Zeichen",
+      "auth.new_here": "Neu hier? Konto erstellen",
+      "auth.have_account": "Schon ein Konto? Anmelden",
+      "auth.signing_in": "Anmeldung…",
+      "auth.creating": "Konto wird erstellt…",
+      "auth.check_inbox": "E-Mail-Postfach prüfen",
+      "auth.signup_success": "Registrierung erfolgreich! Bitte prüfen Sie Ihren Posteingang und klicken Sie auf den Bestätigungslink, um Ihr Konto zu aktivieren.",
+      "auth.back_to_signin": "Zurück zur Anmeldung",
+      "auth.close": "Schließen",
+      "auth.err_invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "auth.err_short_password": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "auth.err_unavailable": "Authentifizierung nicht verfügbar. Bitte laden Sie die Seite neu."
     },
 
     fr: {
@@ -227,7 +302,32 @@
       "common.no_stations": "Aucune station disponible",
       "common.buffering": "Mise en mémoire tampon…",
       "common.all": "Tout",
-      "common.top_selected": "Top 20 Sélection"
+      "common.top_selected": "Top 20 Sélection",
+
+      "auth.sign_in": "Se connecter",
+      "auth.sign_up": "S'inscrire",
+      "auth.create_account": "Créer un compte",
+      "auth.sign_out": "Se déconnecter",
+      "auth.email": "E-mail",
+      "auth.password": "Mot de passe",
+      "auth.my_profile": "Mon profil",
+      "auth.welcome_back": "Bon retour",
+      "auth.signin_sub": "Connectez-vous pour continuer à écouter.",
+      "auth.signup_title": "Créez votre compte",
+      "auth.signup_sub": "Un compte pour Classique, Jazz et Vibes.",
+      "auth.email_placeholder": "vous@exemple.fr",
+      "auth.password_placeholder": "Au moins 6 caractères",
+      "auth.new_here": "Nouveau ici ? Créer un compte",
+      "auth.have_account": "Déjà un compte ? Se connecter",
+      "auth.signing_in": "Connexion…",
+      "auth.creating": "Création du compte…",
+      "auth.check_inbox": "Vérifiez votre boîte de réception",
+      "auth.signup_success": "Inscription réussie ! Veuillez vérifier votre boîte de réception et cliquer sur le lien de confirmation pour activer votre compte.",
+      "auth.back_to_signin": "Retour à la connexion",
+      "auth.close": "Fermer",
+      "auth.err_invalid_email": "Veuillez saisir une adresse e-mail valide.",
+      "auth.err_short_password": "Le mot de passe doit contenir au moins 6 caractères.",
+      "auth.err_unavailable": "Authentification indisponible. Veuillez recharger la page."
     },
 
     it: {
@@ -283,7 +383,32 @@
       "common.no_stations": "Nessuna stazione disponibile",
       "common.buffering": "Buffering…",
       "common.all": "Tutte",
-      "common.top_selected": "Top 20 Selezionati"
+      "common.top_selected": "Top 20 Selezionati",
+
+      "auth.sign_in": "Accedi",
+      "auth.sign_up": "Registrati",
+      "auth.create_account": "Crea un account",
+      "auth.sign_out": "Esci",
+      "auth.email": "Email",
+      "auth.password": "Password",
+      "auth.my_profile": "Il mio profilo",
+      "auth.welcome_back": "Bentornato",
+      "auth.signin_sub": "Accedi per continuare ad ascoltare.",
+      "auth.signup_title": "Crea il tuo account",
+      "auth.signup_sub": "Un account per Classica, Jazz e Vibes.",
+      "auth.email_placeholder": "tu@esempio.it",
+      "auth.password_placeholder": "Almeno 6 caratteri",
+      "auth.new_here": "Nuovo qui? Crea un account",
+      "auth.have_account": "Hai già un account? Accedi",
+      "auth.signing_in": "Accesso…",
+      "auth.creating": "Creazione account…",
+      "auth.check_inbox": "Controlla la tua casella di posta",
+      "auth.signup_success": "Registrazione completata! Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.",
+      "auth.back_to_signin": "Torna all'accesso",
+      "auth.close": "Chiudi",
+      "auth.err_invalid_email": "Inserisci un indirizzo email valido.",
+      "auth.err_short_password": "La password deve contenere almeno 6 caratteri.",
+      "auth.err_unavailable": "Autenticazione non disponibile. Ricarica la pagina."
     },
 
     es: {
@@ -339,7 +464,32 @@
       "common.no_stations": "No hay emisoras disponibles",
       "common.buffering": "Cargando…",
       "common.all": "Todas",
-      "common.top_selected": "Top 20 Seleccionados"
+      "common.top_selected": "Top 20 Seleccionados",
+
+      "auth.sign_in": "Iniciar sesión",
+      "auth.sign_up": "Registrarse",
+      "auth.create_account": "Crear cuenta",
+      "auth.sign_out": "Cerrar sesión",
+      "auth.email": "Correo electrónico",
+      "auth.password": "Contraseña",
+      "auth.my_profile": "Mi perfil",
+      "auth.welcome_back": "Bienvenido de nuevo",
+      "auth.signin_sub": "Inicia sesión para seguir escuchando.",
+      "auth.signup_title": "Crea tu cuenta",
+      "auth.signup_sub": "Una cuenta para Clásica, Jazz y Vibes.",
+      "auth.email_placeholder": "tu@ejemplo.es",
+      "auth.password_placeholder": "Al menos 6 caracteres",
+      "auth.new_here": "¿Nuevo aquí? Crear cuenta",
+      "auth.have_account": "¿Ya tienes una cuenta? Iniciar sesión",
+      "auth.signing_in": "Iniciando sesión…",
+      "auth.creating": "Creando cuenta…",
+      "auth.check_inbox": "Revisa tu bandeja de entrada",
+      "auth.signup_success": "¡Registro completado! Revisa tu bandeja de entrada y haz clic en el enlace de confirmación para activar tu cuenta.",
+      "auth.back_to_signin": "Volver a iniciar sesión",
+      "auth.close": "Cerrar",
+      "auth.err_invalid_email": "Introduce un correo electrónico válido.",
+      "auth.err_short_password": "La contraseña debe tener al menos 6 caracteres.",
+      "auth.err_unavailable": "Autenticación no disponible. Recarga la página."
     }
   };
 
@@ -413,6 +563,7 @@
     try { localStorage.setItem("music-radio-lang", code); } catch (e) { /* noop */ }
     applyTranslations();
     if (window.onLanguageChange) window.onLanguageChange(code);
+    document.dispatchEvent(new CustomEvent("langchange", { detail: code }));
   }
 
   window.I18N = {
@@ -424,6 +575,7 @@
       currentLang = detectLang();
       buildLangSwitcher();
       applyTranslations();
+      document.dispatchEvent(new CustomEvent("langchange", { detail: currentLang }));
     }
   };
 })();

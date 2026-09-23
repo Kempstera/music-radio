@@ -682,6 +682,27 @@ body[data-page="vibes"] .wrap { max-width: 1280px; }
 }
 .auth-switch button:hover { text-decoration: underline; }
 
+/* sign-up success panel (email confirmation pending) */
+.auth-success { text-align: center; padding: 4px 0 2px; }
+.auth-success-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(52, 199, 89, 0.12);
+  color: #34c759;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+}
+.auth-success-msg {
+  margin: 0 0 20px;
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
 @media (max-width: 640px) {
   .auth-chip { max-width: 96px; }
   .auth-signout { padding: 6px 10px; font-size: 0.78rem; }
