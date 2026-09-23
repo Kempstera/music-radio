@@ -77,10 +77,56 @@
     '<path d="M12 21s-6.7-4.35-9.33-8.11C.9 10.36 1.98 6.5 5.28 5.5c1.94-.59 4.03.06 5.28 1.7l1.44 1.8 1.44-1.8c1.25-1.64 3.34-2.29 5.28-1.7 3.3 1 4.38 4.86 2.61 7.39C18.7 16.65 12 21 12 21z"/>' +
     '</svg>';
 
+  // Actual Supabase column name for the station id — detected at runtime so
+  // INSERT/SELECT never fail silently on `stationuuid` vs `station_uuid`.
+  var UUID_COL = "station_uuid";
+
+  function isColumnError(msg) {
+    var m = String(msg || "").toLowerCase();
+    return /column|attribute|field/.test(m) && /does not exist|not found|unknown/.test(m);
+  }
+
+  function queryFavs() {
+    return supabase
+      .from("user_favorites")
+      .select(UUID_COL + ", created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+  }
+
+  function insertFav(uuid) {
+    var row = { user_id: user.id };
+    row[UUID_COL] = uuid;
+    return supabase.from("user_favorites").insert([row]).then(function (r) {
+      if (r.error && isColumnError(r.error.message) && UUID_COL === "station_uuid") {
+        UUID_COL = "stationuuid";
+        var row2 = { user_id: user.id };
+        row2[UUID_COL] = uuid;
+        return supabase.from("user_favorites").insert([row2]);
+      }
+      return r;
+    });
+  }
+
+  function deleteFav(uuid) {
+    return supabase
+      .from("user_favorites")
+      .delete()
+      .eq("user_id", user.id)
+      .eq(UUID_COL, uuid)
+      .then(function (r) {
+        if (r.error && isColumnError(r.error.message) && UUID_COL === "station_uuid") {
+          UUID_COL = "stationuuid";
+          return supabase.from("user_favorites").delete().eq("user_id", user.id).eq(UUID_COL, uuid);
+        }
+        return r;
+      });
+  }
+
   function applyHeartState(btn) {
     var uuid = btn.getAttribute("data-uuid");
     var on = !!(uuid && favSet[uuid]);
-    btn.classList.toggle("favorited", on);
+    btn.classList.toggle("is-favorited", on);
     // Inline styles as a bulletproof fallback (some Android/WeChat browsers
     // ignore CSS class rules on SVG paths).
     btn.style.color = on ? "#FF3B30" : "";
@@ -137,23 +183,15 @@
     var done = function () { btn.removeAttribute("data-pending"); };
 
     if (adding) {
-      supabase
-        .from("user_favorites")
-        .insert([{ user_id: user.id, station_uuid: uuid }])
-        .then(function (r) {
-          done();
-          if (r.error) { console.warn("[Favorites] insert failed", r.error); revertToggle(uuid, true); }
-        });
+      insertFav(uuid).then(function (r) {
+        done();
+        if (r.error) { console.warn("[Favorites] insert failed", r.error); revertToggle(uuid, true); }
+      });
     } else {
-      supabase
-        .from("user_favorites")
-        .delete()
-        .eq("user_id", user.id)
-        .eq("station_uuid", uuid)
-        .then(function (r) {
-          done();
-          if (r.error) { console.warn("[Favorites] delete failed", r.error); revertToggle(uuid, false); }
-        });
+      deleteFav(uuid).then(function (r) {
+        done();
+        if (r.error) { console.warn("[Favorites] delete failed", r.error); revertToggle(uuid, false); }
+      });
     }
   }
 
@@ -240,7 +278,7 @@
 
     var heart = document.createElement("button");
     heart.type = "button";
-    heart.className = "card-heart favorited";
+    heart.className = "card-heart is-favorited";
     heart.setAttribute("data-uuid", stationUuid(s));
     heart.innerHTML = HEART_SVG;
     applyHeartState(heart);
@@ -299,29 +337,38 @@
       favOrder = [];
       syncHearts();
       updateLink();
+      notifyChange();
       if (isFavPage()) renderFavPage();
       return;
     }
-    supabase
-      .from("user_favorites")
-      .select("station_uuid, created_at")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .then(function (res) {
-        if (res.error) return;
-        favSet = {};
-        favOrder = [];
-        (res.data || []).forEach(function (r) {
-          if (!favSet[r.station_uuid]) {
-            favSet[r.station_uuid] = true;
-            favOrder.push(r.station_uuid);
-          }
-        });
-        syncHearts();
-        updateLink();
-        notifyChange();
-        if (isFavPage()) renderFavPage();
-      });
+    queryFavs().then(function (res) {
+      if (res.error) {
+        if (isColumnError(res.error.message) && UUID_COL === "station_uuid") {
+          UUID_COL = "stationuuid";
+          queryFavs().then(applyLoadedFavs);
+          return;
+        }
+        console.warn("[Favorites] load failed", res.error);
+        return;
+      }
+      applyLoadedFavs(res);
+    });
+  }
+
+  function applyLoadedFavs(res) {
+    favSet = {};
+    favOrder = [];
+    (res.data || []).forEach(function (r) {
+      var u = r[UUID_COL] || r.station_uuid || r.stationuuid;
+      if (u && !favSet[u]) {
+        favSet[u] = true;
+        favOrder.push(u);
+      }
+    });
+    syncHearts();
+    updateLink();
+    notifyChange();
+    if (isFavPage()) renderFavPage();
   }
 
   // Hearts are re-created whenever a tab re-renders — keep them in sync.
@@ -377,6 +424,7 @@
     isFav: function (uuid) { return !!favSet[uuid]; },
     isSignedIn: function () { return !!user; },
     count: function () { return favOrder.length; },
+    uuids: function () { return favOrder.slice(); },
     getFavStations: getFavStations,
     toast: showToast,
     onChange: function (cb) { changeCbs.push(cb); }

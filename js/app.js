@@ -194,6 +194,34 @@
     el.classList.add("station-fade");
   }
 
+  // Synchronous favorites list from local data — used by the sidebar tab
+  // AND the injected "My Favorites" section on the default view.
+  function favStationList() {
+    var F = window.Favorites;
+    if (!F || !F.isSignedIn()) return [];
+    var uuids = F.uuids ? F.uuids() : [];
+    if (!uuids.length) return [];
+    var map = {};
+    Object.keys(data || {}).forEach(function (cat) {
+      var groups = data[cat] || {};
+      Object.keys(groups).forEach(function (g) {
+        (groups[g] || []).forEach(function (s) {
+          map[window.StationUuid(s)] = s;
+        });
+      });
+    });
+    var list = [];
+    uuids.forEach(function (u) { if (map[u]) list.push(map[u]); });
+    return list;
+  }
+
+  // "My Favorites" section injected at the VERY TOP of the main grid.
+  function renderFavSection(wrap) {
+    var list = favStationList();
+    if (!list.length) return; // 0 favorites → hide the section
+    renderSection(wrap, t("fav.title"), list);
+  }
+
   function renderFavoritesTab(wrap) {
     var F = window.Favorites;
     if (!F) return;
@@ -206,17 +234,15 @@
       return;
     }
     // Render ONLY the favorited stations (in the user's saved order).
-    F.getFavStations(function (list) {
-      if (!list.length) {
-        var p = document.createElement("p");
-        p.className = "fav-empty";
-        p.textContent = t("fav.empty");
-        wrap.appendChild(p);
-        return;
-      }
-      renderSection(wrap, t("fav.title"), list);
-      fadeIn(wrap);
-    });
+    var list = favStationList();
+    if (!list.length) {
+      var p = document.createElement("p");
+      p.className = "fav-empty";
+      p.textContent = t("fav.empty");
+      wrap.appendChild(p);
+      return;
+    }
+    renderSection(wrap, t("fav.title"), list);
   }
 
   /* ---------- Tab definitions ---------- */
@@ -239,6 +265,7 @@
         key: KEY_TOP,
         label: t("common.top_selected"),
         render: function (wrap) {
+          renderFavSection(wrap); // My Favorites at the VERY TOP, above Top 20
           var top = overallTop20();
           if (top.length) renderSection(wrap, t("common.top_selected"), top);
         }
@@ -248,6 +275,7 @@
         key: KEY_ALL,
         label: t("common.all"),
         render: function (wrap) {
+          renderFavSection(wrap); // My Favorites at the VERY TOP, above all groups
           groups.forEach(function (g) {
             renderSection(wrap, g, qualitySort(buckets[g] || []));
           });
@@ -257,6 +285,7 @@
         key: KEY_TOP,
         label: t("common.top_selected"),
         render: function (wrap) {
+          renderFavSection(wrap);
           var top = overallTop20();
           if (top.length) renderSection(wrap, t("common.top_selected"), top);
         }
@@ -342,14 +371,20 @@
 
       var label = document.createElement("span");
       label.className = "cat-label";
-      label.textContent = tab.label;
-
-      var count = document.createElement("span");
-      count.className = "cat-count";
-      count.textContent = countFor(tab.key);
+      if (tab.key === KEY_FAV) {
+        // "My Favorites (X)" — dynamic count inline in the label.
+        label.textContent = tab.label + " (" + countFor(tab.key) + ")";
+      } else {
+        label.textContent = tab.label;
+      }
 
       btn.appendChild(label);
-      btn.appendChild(count);
+      if (tab.key !== KEY_FAV) {
+        var count = document.createElement("span");
+        count.className = "cat-count";
+        count.textContent = countFor(tab.key);
+        btn.appendChild(count);
+      }
       btn.addEventListener("click", function () { renderTab(tab.key); });
       navEl.appendChild(btn);
     });
@@ -370,6 +405,14 @@
     }
     if (key === KEY_TOP) return overallTop20().length;
     return (buckets[key] || []).length;
+  }
+
+  function updateFavTabLabel() {
+    if (!navEl) return;
+    var btn = navEl.querySelector('[data-tab="' + KEY_FAV + '"]');
+    if (!btn) return;
+    var label = btn.querySelector(".cat-label");
+    if (label) label.textContent = t("fav.title") + " (" + countFor(KEY_FAV) + ")";
   }
 
   function rehighlightCurrent() {
@@ -410,14 +453,15 @@
       });
     }
 
-    // Live-update the favorites pill count + re-render the favorites tab when
-    // the user hearts/un-hearts while it is open.
+    // Live-update "My Favorites (X)" label + re-render the open tab whenever
+    // the user hearts/un-hearts anywhere on the page.
     if (window.Favorites && window.Favorites.onChange) {
       window.Favorites.onChange(function () {
         if (!data || !navEl) return;
-        var pill = navEl.querySelector('[data-tab="' + KEY_FAV + '"] .cat-count');
-        if (pill) pill.textContent = countFor(KEY_FAV);
-        if (activeTab === KEY_FAV) renderTab(KEY_FAV);
+        updateFavTabLabel();
+        if (activeTab === KEY_FAV || activeTab === KEY_ALL || activeTab === KEY_TOP) {
+          renderTab(activeTab);
+        }
       });
     }
   }
