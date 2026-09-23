@@ -8,7 +8,7 @@
   "use strict";
 
   var SUPABASE_URL = "https://xivobmucjutdfoxmfjxu.supabase.co";
-  var SUPABASE_ANON_KEY = "***";
+  var SUPABASE_ANON_KEY = "sb_publishable_3-qf8Tpy8aaB8QdvyiR5dg_xx1CzksE";
   var MAX_FAVS = 20;
 
   // English fallback so the UI still works if i18n.js fails to load.
