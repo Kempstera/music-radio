@@ -65,9 +65,27 @@
       document.body.appendChild(toastEl);
     }
     toastEl.textContent = msg;
+    toastEl.classList.remove("toast-error");
     toastEl.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2400);
+  }
+
+  // DIAGNOSTIC: surface the REAL Supabase error on screen (red, sticky, 10s)
+  // so failures are never silent again. Also mirrored to the console.
+  function showErrorToast(msg) {
+    var m = String(msg || "unknown error");
+    console.warn("[Favorites] " + m);
+    if (!toastEl) {
+      toastEl = document.createElement("div");
+      toastEl.className = "toast";
+      toastEl.setAttribute("role", "alert");
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = "[Favorites] " + m;
+    toastEl.classList.add("show", "toast-error");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("show", "toast-error"); }, 10000);
   }
 
   // ---------- heart state ----------
@@ -185,12 +203,12 @@
     if (adding) {
       insertFav(uuid).then(function (r) {
         done();
-        if (r.error) { console.warn("[Favorites] insert failed", r.error); revertToggle(uuid, true); }
+        if (r.error) { showErrorToast("insert: " + (r.error.message || JSON.stringify(r.error))); revertToggle(uuid, true); }
       });
     } else {
       deleteFav(uuid).then(function (r) {
         done();
-        if (r.error) { console.warn("[Favorites] delete failed", r.error); revertToggle(uuid, false); }
+        if (r.error) { showErrorToast("delete: " + (r.error.message || JSON.stringify(r.error))); revertToggle(uuid, false); }
       });
     }
   }
@@ -348,7 +366,7 @@
           queryFavs().then(applyLoadedFavs);
           return;
         }
-        console.warn("[Favorites] load failed", res.error);
+        showErrorToast("load: " + (res.error.message || JSON.stringify(res.error)));
         return;
       }
       applyLoadedFavs(res);

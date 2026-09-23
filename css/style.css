@@ -746,6 +746,13 @@ body[data-page="vibes"] .wrap { max-width: 1280px; }
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.toast-error {
+  background: #B00020;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-align: left;
+  word-break: break-word;
+}
 
 /* "My Favorites" header link (visible only when signed in) */
 .nav-links .nav-favorites::before { content: "♥ "; }
