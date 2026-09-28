@@ -2834,10 +2834,20 @@
    {
     "name": "Classic FM Calm",
     "url": [
+     "https://media-ssl.musicradio.com/ClassicFMCalmMP3",
+     "https://media-ssl.musicradio.com/ClassicFMCalm",
      "https://media-ice.musicradio.com/ClassicFMCalmMP3",
-     "https://media-sov.musicradio.com/ClassicFMCalmMP3",
+     "https://media-ice.musicradio.com/ClassicFMCalm",
      "https://media-the.musicradio.com/ClassicFMCalmMP3",
-     "https://media-ssl.musicradio.com/ClassicFMCalmMP3"
+     "https://media-the.musicradio.com/ClassicFMCalm",
+     "https://media-sov.musicradio.com/ClassicFMCalmMP3",
+     "https://media-sov.musicradio.com/ClassicFMCalm",
+     "https://ice-the.musicradio.com/ClassicFMCalmMP3",
+     "https://ice-the.musicradio.com/ClassicFMCalm",
+     "https://ice-sov.musicradio.com/ClassicFMCalmMP3",
+     "https://ice-sov.musicradio.com/ClassicFMCalm",
+     "https://icecast.thisisdax.com/ClassicFMCalmMP3",
+     "https://icecast.thisisdax.com/ClassicFMCalm"
     ],
     "country": "GB",
     "tags": "classical,romantic",

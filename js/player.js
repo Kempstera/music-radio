@@ -21,7 +21,6 @@
   var skipCb = null;
 
   var SKIP_TIMEOUT_MS = 15000; // smart timeout: wait a full 15s for the playing event
-  var MAX_RETRIES = 2;         // circuit breaker: max 3 URL attempts per station
   var urlIndex = 0;            // which URL of the current station is being tried
   var pendingAutoplay = false; // autoplay flag carried across fallback attempts
 
@@ -269,13 +268,20 @@
     emit();
   }
 
+  // Dynamic retry limit: exhaust EVERY url in the station's array before
+  // giving up (maxRetries = url.length - 1). A station with 14 mirrors gets
+  // 14 chances; a plain string gets exactly 1. Still 15s per URL.
+  function maxAttemptsFor(station) {
+    return Math.max(1, stationUrls(station).length);
+  }
+
   // Circuit breaker: advance to the next URL of the SAME station (silently),
-  // or give up after MAX_RETRIES / when the URL list runs out → skip station.
+  // or skip to the next station ONLY when every URL in the array is exhausted.
   function tryNextUrl() {
     if (!current) { skipToNext(); return; }
     var urls = stationUrls(current);
     var next = urlIndex + 1;
-    var maxAttempts = Math.min(urls.length, MAX_RETRIES + 1);
+    var maxAttempts = maxAttemptsFor(current);
     if (next >= maxAttempts) {
       console.warn(
         "[Music Radio] " + (current.name || "Station") +
