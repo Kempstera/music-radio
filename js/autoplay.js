@@ -2,7 +2,7 @@
  * Music Radio — context-aware background ambient track (all pages).
  * Each page greets the visitor with a thematic default as soon as the player
  * can start (or, if the browser blocks unmuted autoplay, on the first gesture):
- *   - Home & Classical: "Your Classical - Peaceful Piano" (exact name match)
+ *   - Home & Classical: "Classic FM Calm" (exact name match — VIP default)
  *   - Jazz: top-voted station matching "Smooth Jazz" / "Bossa Nova" / "Lounge"
  *   - Vibes: top-voted station matching "Lo-Fi" / "Chill" / "Study"
  * Matching prefers a keyword in the station name; if none, it falls back to a
@@ -12,7 +12,7 @@
 (function () {
   "use strict";
 
-  var CLASSICAL_NAME = "Your Classical - Peaceful Piano";
+  var CLASSICAL_NAME = "Classic FM Calm";
   var JAZZ_KEYWORDS = ["Smooth Jazz", "Bossa Nova", "Lounge"];
   var VIBES_KEYWORDS = ["Lo-Fi", "Chill", "Study"];
 
@@ -72,7 +72,7 @@
     if (PAGE === "vibes") {
       return pickByKeywords(flatten("vibes", data), VIBES_KEYWORDS);
     }
-    // Home & Classical share the Peaceful Piano default.
+    // Home & Classical share the Classic FM Calm default.
     return findClassicalPiano(data);
   }
 

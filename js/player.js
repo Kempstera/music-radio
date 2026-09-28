@@ -23,6 +23,11 @@
   var SKIP_TIMEOUT_MS = 15000; // smart timeout: wait a full 15s for the playing event
   var urlIndex = 0;            // which URL of the current station is being tried
   var pendingAutoplay = false; // autoplay flag carried across fallback attempts
+  var VIP_LOOP_NAME = "Classic FM Calm"; // VIP station: infinite mirror loop, never skip
+
+  function isVipStation(station) {
+    return !!(station && station.name === VIP_LOOP_NAME);
+  }
 
   function t(key) { return window.I18N ? window.I18N.t(key) : key; }
 
@@ -43,9 +48,12 @@
       });
       audio.addEventListener("pause", function () {
         if (userPaused) {
-          // Deliberate user pause — stop the watchdog.
+          // STRICT pause protection: destroy every watchdog, loading state and
+          // pending fallback so the player stays silent until the user resumes.
           clearTimer();
           setBuffering(false);
+          setStatus("");
+          disarmFirstGesture();
         } else {
           // iOS/iPadOS quirk: a dead buffer flips paused=true all by itself
           // (no user input). Treat it as a stall and arm the 15s recovery
@@ -63,6 +71,11 @@
       audio.addEventListener("error", function () {
         clearTimer();
         setBuffering(false);
+        if (userPaused) {
+          // User asked for silence — never auto-advance out of it.
+          setStatus("");
+          return;
+        }
         tryNextUrl();
       });
     }
@@ -129,23 +142,36 @@
 
   // Autoplay was blocked (unmuted audio needs a user gesture). Arm a one-shot
   // listener so the very first click/tap anywhere starts the background music.
+  var gestureResume = null;
   function armFirstGesture() {
     if (autoplayArmed) return;
     autoplayArmed = true;
-    function resume() {
+    gestureResume = function () {
       autoplayArmed = false;
+      gestureResume = null;
       if (!current || !audio) return;
       if (!audio.paused) return; // already playing
+      if (userPaused) return;    // user asked for silence — do not resume
       setBuffering(true);
       setStatus("buffering");
       armTimer();
       audio.play().catch(function () { setStatus("error"); });
+    };
+    document.body.addEventListener("click", gestureResume, { once: true });
+    document.body.addEventListener("touchstart", gestureResume, { once: true });
+  }
+
+  function disarmFirstGesture() {
+    if (gestureResume) {
+      document.body.removeEventListener("click", gestureResume);
+      document.body.removeEventListener("touchstart", gestureResume);
+      gestureResume = null;
     }
-    document.body.addEventListener("click", resume, { once: true });
-    document.body.addEventListener("touchstart", resume, { once: true });
+    autoplayArmed = false;
   }
 
   function skipOnTimeout() {
+    if (userPaused) return; // silence requested — never auto-recover
     if (current) {
       console.warn(
         "[Music Radio] Stream timed out after " + (SKIP_TIMEOUT_MS / 1000) +
@@ -277,12 +303,24 @@
 
   // Circuit breaker: advance to the next URL of the SAME station (silently),
   // or skip to the next station ONLY when every URL in the array is exhausted.
+  // VIP stations (Classic FM Calm) never skip: they loop back to url[0]
+  // infinitely until one of their mirrors works.
   function tryNextUrl() {
     if (!current) { skipToNext(); return; }
+    if (userPaused) return; // silence requested — never auto-recover
     var urls = stationUrls(current);
     var next = urlIndex + 1;
     var maxAttempts = maxAttemptsFor(current);
     if (next >= maxAttempts) {
+      if (isVipStation(current)) {
+        console.warn(
+          "[Music Radio] " + current.name + " exhausted all " + maxAttempts +
+          " mirrors — restarting the loop from URL #1"
+        );
+        urlIndex = 0;
+        loadUrl();
+        return;
+      }
       console.warn(
         "[Music Radio] " + (current.name || "Station") +
         " failed after " + maxAttempts + " URL attempt(s) — skipping to next station"
