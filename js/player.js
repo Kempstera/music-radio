@@ -19,7 +19,10 @@
   var stateCb = null;
   var skipCb = null;
 
-  var SKIP_TIMEOUT_MS = 10000; // smart timeout: 10s of waiting/stalled
+  var SKIP_TIMEOUT_MS = 15000; // smart timeout: wait a full 15s for the playing event
+  var MAX_RETRIES = 2;         // circuit breaker: max 3 URL attempts per station
+  var urlIndex = 0;            // which URL of the current station is being tried
+  var pendingAutoplay = false; // autoplay flag carried across fallback attempts
 
   function t(key) { return window.I18N ? window.I18N.t(key) : key; }
 
@@ -50,7 +53,7 @@
       audio.addEventListener("error", function () {
         clearTimer();
         setBuffering(false);
-        skipToNext();
+        tryNextUrl();
       });
     }
     return audio;
@@ -133,10 +136,10 @@
     if (current) {
       console.warn(
         "[Music Radio] Stream timed out after " + (SKIP_TIMEOUT_MS / 1000) +
-        "s of buffering — skipping: " + (current.name || current.url)
+        "s of buffering — " + (current.name || current.url)
       );
     }
-    skipToNext();
+    tryNextUrl();
   }
 
   function destroyHls() {
@@ -182,53 +185,93 @@
     if (skipCb) skipCb(queueIndex);
   }
 
+  function stationUrls(station) {
+    if (!station) return [];
+    if (!station.url) return [];
+    return Array.isArray(station.url) ? station.url.slice() : [station.url];
+  }
+
   function loadStation(station, isAutoplay) {
-    if (!station || !station.url) return;
+    if (!station) return;
+    var urls = stationUrls(station);
+    if (!urls.length) return;
     current = station;
+    urlIndex = 0;
+    pendingAutoplay = !!isAutoplay;
+    setNowPlaying(station.name, false);
+    updateMediaSession();
+    loadUrl();
+  }
+
+  function loadUrl() {
+    var urls = stationUrls(current);
+    var url = urls[urlIndex];
+    if (!url) { skipToNext(); return; }
     var a = ensureAudio();
     destroyHls();
     clearTimer();
     try { a.pause(); } catch (e) { /* noop */ }
     a.src = "";
 
-    if (isHls(station.url)) {
+    if (isHls(url)) {
       if (window.Hls && Hls.isSupported()) {
         hls = new Hls({ enableWorker: true });
-        hls.loadSource(station.url);
+        hls.loadSource(url);
         hls.attachMedia(a);
         hls.on(Hls.Events.ERROR, function (evt, data) {
           if (data && data.fatal) {
             destroyHls();
-            skipToNext();
+            tryNextUrl();
           }
         });
       } else if (a.canPlayType("application/vnd.apple.mpegurl")) {
-        a.src = station.url; // Safari native HLS
+        a.src = url; // Safari native HLS
       } else {
-        setStatus("error");
-        skipToNext();
+        tryNextUrl();
         return;
       }
     } else {
-      a.src = station.url;
+      a.src = url;
     }
 
-    setNowPlaying(station.name, false);
     setBuffering(true);
     setStatus("buffering");
-    updateMediaSession();
     armTimer();
     a.play().catch(function () {
       clearTimer();
       setBuffering(false);
-      if (isAutoplay) {
+      if (pendingAutoplay) {
         // Autoplay blocked by the browser — wait for the first user gesture.
         armFirstGesture();
       } else {
-        setStatus("error");
+        // Explicit user intent, but play() rejected — treat as a dead URL.
+        tryNextUrl();
       }
     });
     emit();
+  }
+
+  // Circuit breaker: advance to the next URL of the SAME station (silently),
+  // or give up after MAX_RETRIES / when the URL list runs out → skip station.
+  function tryNextUrl() {
+    if (!current) { skipToNext(); return; }
+    var urls = stationUrls(current);
+    var next = urlIndex + 1;
+    var maxAttempts = Math.min(urls.length, MAX_RETRIES + 1);
+    if (next >= maxAttempts) {
+      console.warn(
+        "[Music Radio] " + (current.name || "Station") +
+        " failed after " + maxAttempts + " URL attempt(s) — skipping to next station"
+      );
+      skipToNext();
+      return;
+    }
+    urlIndex = next;
+    console.warn(
+      "[Music Radio] " + (current.name || "Station") +
+      " URL #" + urlIndex + " failed — trying #" + (urlIndex + 1)
+    );
+    loadUrl();
   }
 
   function loadList(list, index) {

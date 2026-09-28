@@ -34,10 +34,12 @@
     return EN[key] || key;
   }
 
-  // Deterministic station id: FNV-1a hash of name|url. stations.json has no
-  // uuid field, so derive one that is stable across pages and sessions.
+  // Deterministic station id: FNV-1a hash of name|PRIMARY-url. stations.json
+  // has no uuid field; url may be a string or an array (use url[0] as the
+  // stable identity so backups never change the station's id).
   function stationUuid(s) {
-    var key = (s.name || "") + "|" + (s.url || "");
+    var primary = Array.isArray(s.url) ? (s.url[0] || "") : (s.url || "");
+    var key = (s.name || "") + "|" + primary;
     var h = 0x811c9dc5;
     for (var i = 0; i < key.length; i++) {
       h ^= key.charCodeAt(i);

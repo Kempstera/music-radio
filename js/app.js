@@ -420,7 +420,9 @@
     if (!window.Player.current()) return;
     var cur = window.Player.current();
     for (var i = 0; i < renderList.length; i++) {
-      if (renderList[i].url === cur.url) { markActive(i); break; }
+      // Identity compare: stations.json objects are shared by reference, and
+      // url may now be an array, so url string comparison is no longer safe.
+      if (renderList[i] === cur) { markActive(i); break; }
     }
   }
 
