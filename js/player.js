@@ -13,8 +13,9 @@
   var current = null; // { name, url, codec, group, cat }
   var queue = [];     // ordered stations for auto-skip
   var queueIndex = -1;
-  var loadTimer = null; // dead-stream / stall watchdog
+  var loadTimer = null; // dead-stream / stall / mid-stream recovery watchdog
   var isBuffering = false;
+  var userPaused = false; // deliberate user pause vs. dead-buffer auto-pause (iOS quirk)
   var autoplayArmed = false; // one-shot click/touch fallback for blocked autoplay
   var stateCb = null;
   var skipCb = null;
@@ -42,8 +43,18 @@
         emit();
       });
       audio.addEventListener("pause", function () {
-        clearTimer();
-        setBuffering(false);
+        if (userPaused) {
+          // Deliberate user pause — stop the watchdog.
+          clearTimer();
+          setBuffering(false);
+        } else {
+          // iOS/iPadOS quirk: a dead buffer flips paused=true all by itself
+          // (no user input). Treat it as a stall and arm the 15s recovery
+          // timer instead of killing it — this was the mid-stream deadlock.
+          armTimer();
+          setBuffering(true);
+          setStatus("buffering");
+        }
         emit();
       });
       audio.addEventListener("playing", onResumed);
@@ -98,9 +109,12 @@
   // --- buffering / stall handling ---
 
   function onStalled() {
-    // Only react to genuine stalls while we're actively trying to play.
-    if (!audio || audio.paused || audio.ended) return;
+    // React to genuine stalls. NOTE: do NOT bail on audio.paused here —
+    // on iOS/iPadOS a dead buffer flips paused=true on its own, and that is
+    // exactly the mid-stream dropout we must recover from.
+    if (!audio || audio.ended) return;
     if (!current) return;
+    if (userPaused) return; // deliberate pause — never auto-recover
     setBuffering(true);
     setStatus("buffering");
     armTimer();
@@ -210,8 +224,12 @@
     var a = ensureAudio();
     destroyHls();
     clearTimer();
+    userPaused = false;
     try { a.pause(); } catch (e) { /* noop */ }
+    // Buffer flush: reset src + load() so the dead buffer can't linger.
+    // Without this, iOS/iPadOS plays a system "ding" and refuses to resume.
     a.src = "";
+    try { a.load(); } catch (e) { /* noop */ }
 
     if (isHls(url)) {
       if (window.Hls && Hls.isSupported()) {
@@ -294,8 +312,17 @@
     if (!current) return;
     var a = ensureAudio();
     if (a.paused) {
-      a.play().catch(function () { setStatus("error"); });
+      userPaused = false;
+      setBuffering(true);
+      setStatus("buffering");
+      armTimer();
+      a.play().catch(function () {
+        // Dead buffer on iOS: play() rejects after the system "ding".
+        // Treat the current URL as dead and recover via the fallback chain.
+        tryNextUrl();
+      });
     } else {
+      userPaused = true;
       a.pause();
     }
   }
@@ -353,10 +380,14 @@
     try {
       navigator.mediaSession.setActionHandler("play", function () {
         if (!current || !audio) return;
-        audio.play().catch(function () { setStatus("error"); });
+        userPaused = false;
+        setBuffering(true);
+        setStatus("buffering");
+        armTimer();
+        audio.play().catch(function () { tryNextUrl(); });
       });
       navigator.mediaSession.setActionHandler("pause", function () {
-        if (audio) audio.pause();
+        if (audio) { userPaused = true; audio.pause(); }
       });
       navigator.mediaSession.setActionHandler("nexttrack", function () {
         if (current) skipToNext();
